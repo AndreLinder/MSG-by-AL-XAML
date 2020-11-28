@@ -1,0 +1,82 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MSG_by_AL__XAML_">
+    <!--Цвет границ элементов-->
+    <LinearGradientBrush x:Key="BorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStopCollection>
+            <GradientStop Color="#FF4800AD" Offset="1"/>
+            <GradientStop Color="#FF0071FF" Offset="0"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+
+    <!--Цвет текста-->
+    <LinearGradientBrush x:Key="TextColor1"  EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+        <GradientStopCollection>
+            <GradientStop Color="White" Offset="1"/>
+            <GradientStop Color="Gray" Offset="0"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="TextColor2"  EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+        <GradientStopCollection>
+            <GradientStop Color="Black" Offset="1"/>
+            <GradientStop Color="Gray" Offset="0"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    
+    <!--Цвет кнопки-->
+    <LinearGradientBrush x:Key="StandartButton"  EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+        <GradientStopCollection>
+            <GradientStop Color="#FF4800AD" Offset="1"/>
+            <GradientStop Color="#FF0071FF" Offset="0"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+    <!--Цвет кнопки при наведении мыши-->
+    <LinearGradientBrush x:Key="IsMouseOverColor"  EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+        <GradientStopCollection>
+            <GradientStop Color="#FFDD4F00" Offset="1"/>
+            <GradientStop Color="#FFC09538" Offset="0"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
+
+    <!--Стиль для элементов TextBox-->
+    <Style x:Key="TextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+        <Setter Property="Foreground" Value="{StaticResource TextColor1}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+    
+    <!--Стиль и переопределённый шаблон для кнопки-->
+    <Style x:Key="ButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource StandartButton}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Border Background="{TemplateBinding Button.Background}" CornerRadius="5"/>
+                        <TextBlock Text="{TemplateBinding Button.Content}" FontSize="14" FontFamily="Palatino Linotype" 
+                                   Foreground="{TemplateBinding Button.Foreground}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource IsMouseOverColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextColor2}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--Стиль для элементов Label-->
+    <Style x:Key="LabelStyle" TargetType="Label">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="FontFamily" Value="Palatino Linotype"/>
+    </Style>
+
+</ResourceDictionary>

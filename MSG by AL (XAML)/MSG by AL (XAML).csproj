@@ -108,6 +108,10 @@
     </ApplicationDefinition>
     <Compile Include="Resource\DBMySQLUtils.cs" />
     <Compile Include="Resource\DBUtils.cs" />
+    <Page Include="Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
