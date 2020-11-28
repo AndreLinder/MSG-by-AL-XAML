@@ -1,0 +1,115 @@
+﻿<Window x:Name="AutorizationWindow" x:Class="MSG_by_AL__XAML_.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSG_by_AL__XAML_"
+        mc:Ignorable="d"
+        Title="MSG by AL" Height="450" Width="400" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" Background="Black" ResizeMode="CanMinimize">
+    <Window.Resources>
+        <ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+            <Border Background="{x:Null}" CornerRadius="11" BorderThickness="1">
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <ContentPresenter Content="Войти" HorizontalAlignment="Center"/>
+            </Border>
+        </ControlTemplate>
+        <Style TargetType="Button">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="FontFamily" Value="Palatino Linotype"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFFF0000" Offset="0"/>
+                                <GradientStop Color="White" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="FontFamily" Value="Palatino Linotype"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="FontFamily" Value="Palatino Linotype"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="SelectionBrush">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF6DFF3F" Offset="0"/>
+                        <GradientStop Color="White" Offset="0"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="0,-18,-0.4,18">
+        <TextBox x:Name="login_txt" TextWrapping="Wrap" Margin="90,138,0,0" Text="" TextAlignment="Center" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225"/>
+        <TextBox x:Name="password_txt" TextWrapping="Wrap" Margin="90,191,0,0" Text="" TextAlignment="Center" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225"/>
+        <Label Content="Логин" RenderTransformOrigin="0.5,0.562" Margin="172,108,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50"/>
+        <Label Content="Пароль" RenderTransformOrigin="0.5,0.562" Margin="166,161,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65"/>
+        <Label Content="Авторизация" RenderTransformOrigin="0.5,0.562" Margin="138,37,0,0" FontSize="18" Height="39" VerticalAlignment="Top" HorizontalAlignment="Left" Width="123"/>
+        <Button Template="{StaticResource ButtonTemplate}" VerticalAlignment="Top" Margin="90,235,0,0" Height="23" HorizontalAlignment="Left" Width="225" Click="Button_Click">
+            <TextBlock Text="Войти" HorizontalAlignment="Center"/>
+        </Button>
+    </Grid>
+</Window>
