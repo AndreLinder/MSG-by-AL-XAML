@@ -38,15 +38,58 @@
         </GradientStopCollection>
     </LinearGradientBrush>
 
+    
     <!--Стиль для элементов TextBox-->
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="FontFamily" Value="Palatino Linotype"/>
-        <Setter Property="Foreground" Value="{StaticResource TextColor1}"/>
-        <Setter Property="FontSize" Value="14"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Border Background="{TemplateBinding TextBox.Background}" BorderBrush="{TemplateBinding TextBox.BorderBrush}" BorderThickness="3" CornerRadius="11"/>
+                        <TextBox Background="Transparent" Text="{TemplateBinding TextBox.Text}" FontSize="14" FontFamily="Palatino Linotype"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow" Foreground="{TemplateBinding TextBox.Foreground}"
+                                 BorderThickness="0"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--Стиль для PasswordBox-->
+    <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Border Background="{TemplateBinding PasswordBox.Background}" BorderBrush="{TemplateBinding PasswordBox.BorderBrush}" BorderThickness="3" CornerRadius="11"/>
+                        <PasswordBox Background="Transparent" Foreground="{TemplateBinding PasswordBox.Foreground}" Cursor="Arrow"
+                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0" FontSize="14"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
     <!--Стиль и переопределённый шаблон для кнопки-->

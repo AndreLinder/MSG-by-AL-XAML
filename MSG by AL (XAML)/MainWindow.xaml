@@ -5,19 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSG_by_AL__XAML_"
         mc:Ignorable="d"
-        Title="MSG by AL" Height="450" Width="400" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" Background="Black" ResizeMode="CanMinimize">
-    <Grid Margin="0,0,0,0">
-        <TextBox x:Name="login_txt" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" Margin="90,138,0,0" Text="" TextAlignment="Center" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225"/>
-        <PasswordBox x:Name="password_txt" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                     Margin="90,191,0,0"  Width="225" Height="23" 
-                     VerticalAlignment="Top" HorizontalAlignment="Left" 
-                     BorderBrush="{StaticResource BorderBrush}" Background="{x:Null}"
-                     Foreground="{StaticResource TextColor1}"/>
-        <Label Content="Логин" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="177,108,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" FontSize="14"/>
-        <Label Content="Пароль" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="171,161,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" FontSize="14"/>
-        <Label Content="Авторизация" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="141,37,0,0" FontSize="18" Height="39" VerticalAlignment="Top" HorizontalAlignment="Left" Width="123"/>
+        Title="MSG by AL" Height="402" Width="372.8" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black">
+    <Grid Margin="0,0,3.2,0.6">
+        <TextBox x:Name="login_txt" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" Margin="67,138,0,0" Text="" TextAlignment="Center" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225"/>
+        <PasswordBox x:Name="password_txt" Style="{StaticResource PasswordBoxStyle}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                     Margin="67,191,0,0"  Width="225" Height="25" 
+                     VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Label Content="Логин" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="155,108,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" FontSize="14"/>
+        <Label Content="Пароль" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="148,161,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" FontSize="14"/>
+        <Label Content="Авторизация" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="92,37,0,0" FontSize="26" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Width="176"/>
 
-        <Button Content="Войти" Style="{StaticResource ButtonStyle}" VerticalAlignment="Top" Margin="90,235,0,0" Height="23" HorizontalAlignment="Left" Width="225" Click="Button_Click">
+        <Button Content="Войти" Style="{StaticResource ButtonStyle}" VerticalAlignment="Top" Margin="67,235,0,0" Height="23" HorizontalAlignment="Left" Width="225" Click="Button_Click">
         </Button>
 
     </Grid>
