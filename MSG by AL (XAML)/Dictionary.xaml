@@ -66,31 +66,6 @@
         </Setter>
     </Style>
     
-    <!--Стиль для PasswordBox-->
-    <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Grid>
-                        <Border Background="{TemplateBinding PasswordBox.Background}" BorderBrush="{TemplateBinding PasswordBox.BorderBrush}" BorderThickness="3" CornerRadius="11"/>
-                        <PasswordBox Background="Transparent" Foreground="{TemplateBinding PasswordBox.Foreground}" Cursor="Arrow"
-                                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0" FontSize="14"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     
     <!--Стиль и переопределённый шаблон для кнопки-->
     <Style x:Key="ButtonStyle" TargetType="Button">
@@ -120,6 +95,11 @@
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{StaticResource BorderBrush}"/>
         <Setter Property="FontFamily" Value="Palatino Linotype"/>
+    </Style>
+
+    <!--Стиль для элемента TextBlock-сообщения -->
+    <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+      <Setter Property="Background" Value="{StaticResource IsMouseOverColor}"/>
     </Style>
 
 </ResourceDictionary>
