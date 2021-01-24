@@ -3,14 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MSG_by_AL__XAML_"
+        xmlns:local="clr-namespace:Resource"
         mc:Ignorable="d"
-        Title="MSG by AL" Height="570" Width="890" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black">
+        Title="MSG by AL" Height="577.2" Width="890" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black">
     <Grid>
         <!--Диалоговое окно со списком чатов-->
-        <ListView x:Name="Chat_list" HorizontalAlignment="Left" Height="492" VerticalAlignment="Top" Width="160" 
+        <Button x:Name="Update_Chat_List" Style="{StaticResource ButtonStyleICO}" HorizontalAlignment="Left" 
+                VerticalAlignment="Top" Width="40" Height="40" Margin="10,497,0,0" Click="Update_Chat_List_Click" 
+                FontFamily="Palatino Linotype" local:ButtonImage.Image="New_Refresh.ico">
+        </Button>
+        <!--Диалоговое окно со списком чатов-->
+        <ListView x:Name="Chat_list" HorizontalAlignment="Left" Height="460" VerticalAlignment="Top" Width="160" 
                   Cursor="Hand" Background="#FF1B1B1B" Foreground="{DynamicResource BorderBrush}" 
-                  BorderBrush="{DynamicResource BorderBrush}" BorderThickness="3">
+                  BorderBrush="{DynamicResource BorderBrush}" BorderThickness="3" Margin="0,32,0,0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Список чатов"  Width="160">
@@ -28,12 +33,9 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <!--Обновление диалогоового окна с чатами-->
-        <Button x:Name="Update_Chat_List" Style="{StaticResource ButtonStyle}"  Content="Обновить список чатов" HorizontalAlignment="Left" 
-                VerticalAlignment="Top" Width="160" Height="25" Margin="0,505,0,0" Click="Update_Chat_List_Click"/>
-        <ListBox x:Name="Message_List" HorizontalAlignment="Left" Height="492" Margin="160,0,0,0" VerticalAlignment="Top" Width="500" 
+        <ListBox x:Name="Message_List" HorizontalAlignment="Left" Height="460" Margin="160,32,0,0" VerticalAlignment="Top" Width="500" 
                  Background="#FF1B1B1B" Foreground="{DynamicResource TextColor1}" BorderBrush="{DynamicResource BorderBrush}"
-                 BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 BorderThickness="3" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -43,6 +45,27 @@
                 <TextBlock x:Name="Message" Text="{Binding MyMessage}" Width="245" Height="25"/>
             </StackPanel>
         </ListBox>
-        <Button Style="{StaticResource ButtonStyle}" Content="Отправить" Height="25" HorizontalAlignment="Left" Margin="560,505,0,0" VerticalAlignment="Top" Width="100" Click="Button_Click"/>
+        <Button x:Name="Send_Message" Style="{StaticResource ButtonStyle}" Content="Отправить" Height="33" HorizontalAlignment="Left" Margin="560,497,0,0" VerticalAlignment="Top" Width="100" Click="Send_Message_Click"/>
+        <TextBox x:Name="User_Search" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Left" Height="23" Margin="665,4,0,0" 
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="208" TextChanged="User_Search_Changed"/>
+        <ListBox x:Name="User_List" HorizontalAlignment="Left" Height="460" VerticalAlignment="Top" Width="213" 
+                  Cursor="Hand" Background="#FF1B1B1B" Foreground="{DynamicResource TextColor2}" 
+                  BorderBrush="{DynamicResource BorderBrush}" BorderThickness="3" Margin="660,32,0,0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <Border CornerRadius="10" Background="{StaticResource IsMouseOverColor}" Width="196" Height="20">
+                            <TextBlock Text="{Binding Message_Text}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <StackPanel Orientation="Vertical">
+                <Border CornerRadius="10" Background="{StaticResource IsMouseOverColor}" Width="100" Height="20">
+                    <TextBlock Text="123" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Border>
+            </StackPanel>
+        </ListBox>
+        <TextBox x:Name="TextBox_Message" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Left" Height="33" Margin="165,497,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="390"/>
     </Grid>
 </Window>

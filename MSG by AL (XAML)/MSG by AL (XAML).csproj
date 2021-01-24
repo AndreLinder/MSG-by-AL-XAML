@@ -71,7 +71,7 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>MSG_BY_AL.ico</ApplicationIcon>
+    <ApplicationIcon>Icons\MSG_BY_AL.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -110,9 +110,11 @@
     <Compile Include="ChatsPage.xaml.cs">
       <DependentUpon>ChatsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Resource\ButtonImage.cs" />
     <Compile Include="Resource\Chat_List.cs" />
     <Compile Include="Resource\DBMySQLUtils.cs" />
     <Compile Include="Resource\DBUtils.cs" />
+    <Compile Include="Resource\Message.cs" />
     <Compile Include="SignUpWindow.xaml.cs">
       <DependentUpon>SignUpWindow.xaml</DependentUpon>
     </Compile>
@@ -169,10 +171,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="138-1385444_avion-en-papier-icon-paper-plane-icon-png.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="MSG_BY_AL.ico" />
+    <Resource Include="Icons\MSG_BY_AL.ico" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -188,6 +187,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MSG_BY_AL.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="New_Refresh.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
