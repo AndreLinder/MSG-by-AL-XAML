@@ -8,9 +8,8 @@
         Title="MSG by AL" Height="402" Width="372.8" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black">
     <Grid Margin="0,0,3.2,0.6">
         <TextBox x:Name="login_txt" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" Margin="67,138,0,0" Text="" TextAlignment="Center" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225"/>
-        <TextBox Style="{StaticResource TextBoxStyle}" Margin="67,191,0,0"  Width="225" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <PasswordBox x:Name="password_txt" Margin="82,194,0,0"  Width="197" Height="19" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
-                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Foreground="{StaticResource TextColor1}" Cursor="Arrow"/>
+        <PasswordBox x:Name="password_txt" Style="{StaticResource PasswordBoxStyle}" Margin="67,191,0,0"  Width="225" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
+                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Foreground="{StaticResource TextColor1}"/>
         <Label Content="Логин" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="155,108,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" FontSize="14"/>
         <Label Content="Пароль" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="148,161,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" FontSize="14"/>
         <Label Content="Авторизация" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="92,37,0,0" FontSize="26" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Width="176"/>

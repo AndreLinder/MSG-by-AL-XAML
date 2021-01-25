@@ -140,7 +140,7 @@
 </Style>
 
     <!--Недоработанный  шаблон PasswordBox'а-->
-    <!--<Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
+    <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
@@ -148,13 +148,11 @@
         <Setter Property="Height" Value="{Binding PasswordBox.Height}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
+                <ControlTemplate TargetType="{x:Type PasswordBox}">
                     <Grid>
-                        <Border Background="{TemplateBinding PasswordBox.Background}" BorderBrush="{TemplateBinding PasswordBox.BorderBrush}" BorderThickness="3" CornerRadius="11"/>
-                        <TextBox Background="Transparent"  FontSize="14" FontFamily="Palatino Linotype"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" Cursor="Arrow" Foreground="{TemplateBinding PasswordBox.Foreground}"
-                                 BorderThickness="0" Width="{TemplateBinding PasswordBox.Width}" Height="{TemplateBinding PasswordBox.Height}"
-                                 Text="{TemplateBinding PasswordBox.Password}"/>
+                        <Border Background="{TemplateBinding PasswordBox.Background}" BorderBrush="{TemplateBinding PasswordBox.BorderBrush}" BorderThickness="3" CornerRadius="11">
+                            <ScrollViewer x:Name="PART_ContentHost" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -167,6 +165,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>-->
+    </Style>
     
 </ResourceDictionary>

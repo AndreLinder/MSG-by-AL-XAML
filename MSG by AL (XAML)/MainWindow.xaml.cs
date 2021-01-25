@@ -55,6 +55,7 @@ namespace MSG_by_AL__XAML_
 
                 MySqlParameter password_parameter = new MySqlParameter("@PASSWORD", MySqlDbType.VarChar);
                 password_parameter.Value = password_txt.Password;
+                MessageBox.Show(password_txt.Password);
                 cmd.Parameters.Add(password_parameter);
 
                 //using используется для того, чтобы объект reader освободил память после использвания
