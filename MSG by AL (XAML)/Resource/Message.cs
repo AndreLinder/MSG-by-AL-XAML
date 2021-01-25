@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace MSG_by_AL__XAML_.Resource
 {
@@ -19,6 +20,11 @@ namespace MSG_by_AL__XAML_.Resource
         //Свойсто дат отправки
         public string Message_Date { set; get; }
 
+        //Свойства для хранения значения BorderBrush
+        public Brush borderBrush { get; set; }
+
+        //Свойство для хранения заливки фона сообщения (Background)
+        public Brush backGround { get; set; }
 
     }
 }
