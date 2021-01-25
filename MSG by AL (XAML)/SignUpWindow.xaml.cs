@@ -77,9 +77,11 @@ namespace MSG_by_AL__XAML_
             }
         }
 
-        private void PB_MouseMove(object sender, RoutedEventArgs e)
+        //Действия при закрытии формы
+        private void SignUpWindow_Closing(object sender, EventArgs e)
         {
-           
+            MainWindow main = new MainWindow();
+            main.Show();
         }
     }
 }

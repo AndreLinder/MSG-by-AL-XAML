@@ -8,7 +8,6 @@ using System.Data.Common;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -28,6 +27,10 @@ namespace MSG_by_AL__XAML_
         //ID авторизованного пользователя
         public static int IDuser = -1;
 
+        //ID и никнейм собеседника
+        public static int IDFriend = -1;
+        public static string Friend_Nick="null";
+
 
         //Создание объекта подключения к БД
         MySqlConnection connection = DBUtils.GetDBConnection();
@@ -46,6 +49,17 @@ namespace MSG_by_AL__XAML_
             NickName = login;
             InitializeComponent();
             Clear_List();
+        }
+
+        //Закрытие основного окна
+        private void ChatPage_Closing(object sender, EventArgs e)
+        {
+                IDuser = -1;
+                IDFriend = -1;
+                Friend_Nick = "null";
+                NickName = "null";
+                MainWindow main = new MainWindow();
+                main.Show();
         }
 
 
@@ -110,7 +124,7 @@ namespace MSG_by_AL__XAML_
                 connection.Open();
 
                 //Строка запроса на поиск пользователей в БД
-                string sql_cmd = "SELECT server_chats.users.ID, server_chats.users.User_Name FROM server_chats.users WHERE server_chats.users.User_Name=@NAME";
+                string sql_cmd = "SELECT server_chats.users.ID, server_chats.users.User_Name, server_chats.users.User_Nickname FROM server_chats.users WHERE server_chats.users.User_Name=@NAME";
 
                 //Создаём команду для запроса в БД
                 MySqlCommand cmd = connection.CreateCommand();
@@ -130,9 +144,10 @@ namespace MSG_by_AL__XAML_
                         {
                             //Создаём кастомизированный item для списка пользователей и добавляем ему свойства
                             Chat_List user = new Chat_List();
-                            user.ID = int.Parse(reader.GetString(0));
+                            IDFriend = int.Parse(reader.GetString(0));
                             user.Name = reader.GetString(1);
                             User_List.Items.Add(user);
+                            Friend_Nick = reader.GetString(2);
                         }
                     }
                 }
@@ -140,12 +155,18 @@ namespace MSG_by_AL__XAML_
             }
             catch (Exception ex)
             {
+                //Выводим сообщения об ошибке
                 MessageBox.Show(ex.ToString());
             }
             finally
             {
                 //Закрываем соединение
                 connection.Close();
+                if (User_List.Items.Count==0) 
+                {
+                    IDFriend = -1;
+                    Friend_Nick = "null"; 
+                }
             }
         }
 
@@ -193,7 +214,42 @@ namespace MSG_by_AL__XAML_
         //Создание диалога с пользователем
         private void User_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            try
+            {
+                //Открываем соединение
+                connection.Open();
 
+                //Строка запроса
+                string sql_cmd = "INSERT INTO server_chats.chats (Chat_name, ID_User_1, ID_User_2) VALUES (@CHATNAME,@IDUSER1, @IDUSER2)";
+
+                //Команда запроса
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры в наш запрос
+                MySqlParameter name_parameter = new MySqlParameter("@CHATNAME", MySqlDbType.VarChar);
+                name_parameter.Value = Convert.ToString(NickName+" to "+Friend_Nick);
+                cmd.Parameters.Add(name_parameter);
+
+                MySqlParameter id1 = new MySqlParameter("@IDUSER1", MySqlDbType.Int32);
+                id1.Value = IDuser;
+                cmd.Parameters.Add(id1);
+
+                MySqlParameter id2 = new MySqlParameter("@IDUSER2",MySqlDbType.Int32);
+                id2.Value = IDFriend;
+                cmd.Parameters.Add(id2);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                connection.Close();
+            }
         }
     }
 }

@@ -76,8 +76,9 @@ namespace MSG_by_AL__XAML_
                                 IDuser = int.Parse(reader.GetString(0));
                                 MessageBox.Show("Авторизация прошла успешно!", "Success", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                                 //Открываем основное окно и передаём в него сведения об авторизованном пользователе
-                                ChatsPage CP = new ChatsPage(IDuser, NickName); 
-                                CP.Show();
+                                ChatsPage chatpage = new ChatsPage(IDuser, NickName); 
+                                chatpage.Show();
+                                this.Close();
                             }
                             else MessageBox.Show("Неверный логин или пароль!");
                         }
@@ -102,6 +103,7 @@ namespace MSG_by_AL__XAML_
         {
             SignUpWindow Form = new SignUpWindow();
             Form.Show();
+            this.Close();
         }
     }
 }

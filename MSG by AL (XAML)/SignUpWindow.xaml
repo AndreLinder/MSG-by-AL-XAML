@@ -5,15 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSG_by_AL__XAML_"
         mc:Ignorable="d"
-        Title="MSG by AL" Height="402" Width="372.8" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black">
+        Title="MSG by AL" Height="402" Width="372.8" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black" Closing="SignUpWindow_Closing">
     <Grid>
         <PasswordBox x:Name="password_text" Style="{StaticResource PasswordBoxStyle}" Margin="67,237,0,0"  Width="225" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
                      HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Foreground="{StaticResource TextColor1}"/>
         <TextBox x:Name="name_text" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" Margin="67,127,0,0" TextAlignment="Center" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225"/>
-        <!--<PasswordBox x:Name="password_text" Style="{StaticResource PasswordBoxStyle}" Background="Transparent" Foreground="{StaticResource TextColor1}"
-                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" BorderThickness="0"
-                     Width="225" Height="25" Margin="67,242,74.4,105"/>-->
-        
         <Label Content="Имя пользователя" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="118,92,0,0" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Width="132" FontSize="14"/>
         <Label Content="Пароль" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="148,207,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" FontSize="14"/>
         <Label Content="Регистрация" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="99,37,0,0" FontSize="26" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Width="166"/>
