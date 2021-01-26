@@ -31,6 +31,10 @@ namespace MSG_by_AL__XAML_
         public static int IDFriend = -1;
         public static string Friend_Nick="null";
 
+        //ID активного диалога и количество сообщений в нём
+        public static int IDChat = -1;
+        public static int MessageCount = -1;
+
 
         //Создание объекта подключения к БД
         MySqlConnection connection = DBUtils.GetDBConnection();
@@ -211,7 +215,7 @@ namespace MSG_by_AL__XAML_
 
         }
 
-        //Создание диалога с пользователем
+        //Создание или открытие диалога с пользователем (необработана проверка на наличие существующего диалога)
         private void User_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -240,6 +244,72 @@ namespace MSG_by_AL__XAML_
                 cmd.Parameters.Add(id2);
 
                 cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                connection.Close();
+            }
+        }
+
+        //Открытие диалога с пользователем
+        private void Chat_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally{
+
+            }
+        }
+
+        //Выгрузка сообщений
+        public void Loading_Messages()
+        {
+            try
+            {
+                //Открываем соединение
+                connection.Open();
+
+                //Строка запроса на определения количества сообщений в диалоге
+                string sql_cmd = "SELECT COUNT(*) FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID);";
+
+                //Команда запроса
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Параметры запроса
+                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                myID.Value = IDuser;
+                cmd.Parameters.Add(myID);
+
+                MySqlParameter friendID = new MySqlParameter("@IDFRIEND", MySqlDbType.Int32);
+                friendID.Value = IDFriend;
+                cmd.Parameters.Add(friendID);
+
+                //Получаем количество сообщений в диалоге
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            MessageCount = int.Parse(reader.GetString(0));
+                        }
+                    }
+                }
+
+                //Запрос на выгрузку сообщений (максимум 100)
+                sql_cmd = "";
             }
             catch (Exception ex)
             {

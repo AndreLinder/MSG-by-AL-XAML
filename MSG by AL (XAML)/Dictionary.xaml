@@ -1,9 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Resource">
-    
-    
-<!--Цвет границ элементов-->
+
+    <!--Цвет границ элементов-->
 <LinearGradientBrush x:Key="BorderBrush" StartPoint="0.5,0" EndPoint="0.5,1">
     <GradientStopCollection>
         <GradientStop Color="#FF4800AD" Offset="1"/>
@@ -69,7 +68,7 @@
 </Style>
 
 
-<!--Стиль и переопределённый шаблон для кнопки-->
+<!--Стиль и переопределённый шаблон для треугольной кнопки-->
 <Style x:Key="ButtonStyle" TargetType="Button">
     <Setter Property="Background" Value="{DynamicResource StandartButton}"/>
     <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
@@ -92,6 +91,26 @@
     </Setter>
 </Style>
 
+    <Style x:Key="TriangleButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource StandartButton}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Path Name="border" Stroke="{TemplateBinding BorderBrush}" Fill="{TemplateBinding Background}" Data="M0,0 L 0,20 L 10,10" Width="30" Height="20"/>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Fill" TargetName="border" Value="{DynamicResource IsMouseOverColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+
+
+    <!--Пробный стиль, возможно переопределю позже-->
     <Style x:Key="ButtonStyleICO" TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource StandartButton}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
