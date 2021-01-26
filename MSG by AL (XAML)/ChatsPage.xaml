@@ -7,45 +7,125 @@
         mc:Ignorable="d"
         Title="MSG by AL" Height="577.2" Width="890" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black" Closing="ChatPage_Closing">
     <Grid>
-        <!--Диалоговое окно со списком чатов-->
-        <Button x:Name="Update_Chat_List" Style="{StaticResource ButtonStyleICO}" HorizontalAlignment="Left" 
-                VerticalAlignment="Top" Width="40" Height="40" Margin="10,497,0,0" Click="Update_Chat_List_Click" 
-                FontFamily="Palatino Linotype" local:ButtonImage.Image="New_Refresh.ico">
+        <!--Кнопка обновления списка чатов-->
+        <Button x:Name="Update_Chat_List" 
+                Style="{StaticResource ButtonStyleICO}" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Top" 
+                Width="40" 
+                Height="40" 
+                Margin="10,497,0,0" 
+                Click="Update_Chat_List_Click" 
+                FontFamily="Palatino Linotype" 
+                local:ButtonImage.Image="New_Refresh.ico">
         </Button>
+        
         <!--Диалоговое окно со списком чатов-->
-        <ListBox x:Name="Chat_list" HorizontalAlignment="Left" Height="460" VerticalAlignment="Top" Width="160" 
-                  Cursor="Hand" Background="#FF1B1B1B" Foreground="{DynamicResource BorderBrush}" 
-                  BorderBrush="{DynamicResource BorderBrush}" BorderThickness="3" Margin="1,32,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="Chat_list_SelectionChanged">
+        <ListBox x:Name="Chat_list" 
+                 HorizontalAlignment="Left" 
+                 Height="460" 
+                 VerticalAlignment="Top" 
+                 Width="160" 
+                 Cursor="Hand" 
+                 Background="#FF1B1B1B" 
+                 Foreground="{DynamicResource BorderBrush}" 
+                 BorderBrush="{DynamicResource BorderBrush}" 
+                 BorderThickness="3" 
+                 Margin="1,32,0,0" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 SelectionChanged="Chat_list_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" >
-                        <Border CornerRadius="10" Background="{StaticResource IsMouseOverColor}" Width="140" Height="20">
-                            <TextBlock Text="{Binding Name}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border CornerRadius="10" 
+                                Background="{StaticResource IsMouseOverColor}" 
+                                Width="140" 
+                                Height="20">
+                            <TextBlock Text="{Binding Name}" 
+                                       Background="{x:Null}" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
                         </Border>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Button x:Name="Send_Message" Style="{StaticResource ButtonStyle}" Content="Отправить" Height="33" HorizontalAlignment="Left" Margin="560,497,0,0" VerticalAlignment="Top" Width="100" Click="Send_Message_Click"/>
-        <TextBox x:Name="User_Search" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Left" Height="23" Margin="665,4,0,0" 
-                 TextWrapping="Wrap" VerticalAlignment="Top" Width="208" TextChanged="User_Search_Changed"/>
-        <ListBox x:Name="User_List" HorizontalAlignment="Left" Height="40" VerticalAlignment="Top" Width="216" 
-                  Cursor="Hand" Background="#FF1B1B1B" Foreground="{DynamicResource TextColor2}" 
-                  BorderBrush="{DynamicResource BorderBrush}" BorderThickness="3" Margin="656,32,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="User_List_SelectionChanged">
+        
+        <!--Кнопка отправки сообщения-->
+        <Button x:Name="Send_Message" 
+                Style="{StaticResource ButtonStyle}" 
+                Content="Отправить" 
+                Height="33" 
+                HorizontalAlignment="Left" 
+                Margin="560,497,0,0" 
+                VerticalAlignment="Top" 
+                Width="100" 
+                Click="Send_Message_Click"/>
+        
+        <!--Поле поиска пользователей в программе-->
+        <TextBox x:Name="User_Search" 
+                 Style="{StaticResource TextBoxStyle}" 
+                 HorizontalAlignment="Left" 
+                 Height="23" 
+                 Margin="665,4,0,0" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="208" 
+                 TextChanged="User_Search_Changed"/>
+        
+        <!--Список найденных пользователей-->
+        <ListBox x:Name="User_List" 
+                 HorizontalAlignment="Left" 
+                 Height="40" 
+                 VerticalAlignment="Top" 
+                 Width="216" 
+                 Cursor="Hand" 
+                 Background="#FF1B1B1B" 
+                 Foreground="{DynamicResource TextColor2}" 
+                 BorderBrush="{DynamicResource BorderBrush}" 
+                 BorderThickness="3" 
+                 Margin="656,32,0,0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 SelectionChanged="User_List_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
-                        <Border CornerRadius="10" Background="{StaticResource IsMouseOverColor}" Width="196" Height="25">
-                            <TextBlock Text="{Binding Name}" Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border CornerRadius="10" 
+                                Background="{StaticResource IsMouseOverColor}" 
+                                Width="196" 
+                                Height="25">
+                            <TextBlock Text="{Binding Name}" 
+                                       Background="Transparent" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"/>
                         </Border>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TextBox x:Name="TextBox_Message" Style="{StaticResource TextBoxStyle}" HorizontalAlignment="Left" Height="33" Margin="165,497,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="390"/>
-        <ListBox x:Name="Message_List" HorizontalAlignment="Left" Height="460" Margin="158,32,0,0" VerticalAlignment="Top" Width="500" 
-                 Background="#FF1B1B1B" Foreground="{DynamicResource TextColor1}" BorderBrush="{DynamicResource BorderBrush}"
-                 BorderThickness="3" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        
+        <!--Поле для ввода и отправки сообщения-->
+        <TextBox x:Name="TextBox_Message" 
+                 Style="{StaticResource TextBoxStyle}" 
+                 HorizontalAlignment="Left" 
+                 Height="33" 
+                 Margin="165,497,0,0" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="390"/>
+        
+        <!--Список сообщений из определённого диалога-->
+        <ListBox x:Name="Message_List" 
+                 HorizontalAlignment="Left" 
+                 Height="460" 
+                 Margin="158,32,0,0" 
+                 VerticalAlignment="Top" 
+                 Width="500" 
+                 Background="#FF1B1B1B" 
+                 Foreground="{DynamicResource TextColor1}" 
+                 BorderBrush="{DynamicResource BorderBrush}"
+                 BorderThickness="3" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -53,17 +133,35 @@
             </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="490"  VerticalAlignment="Bottom" Orientation="Horizontal">
-                        <Border CornerRadius="10" Background="{Binding backGround}" BorderBrush="{Binding borderBrush}" BorderThickness="2">
-                            <TextBlock x:Name="Message" Text="{Binding Message_Text}" Background="Transparent"/>
+                    <StackPanel Width="490"  
+                                VerticalAlignment="Bottom" 
+                                Orientation="Horizontal">
+                        <Border CornerRadius="5" 
+                                Background="{Binding backGround}" 
+                                BorderBrush="{Binding borderBrush}" 
+                                BorderThickness="0">
+                            <TextBlock x:Name="Message" 
+                                       Text="{Binding Message_Text}" 
+                                       Background="Transparent"
+                                       Foreground="{StaticResource TextColor2}"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"/>
                         </Border>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        
+        <!--"Ползунок" для выборки определённого кол-ва сообщений из диалога-->
         <Grid Margin="577,0,215.2,505">
-            <Button x:Name="MinusButton" HorizontalAlignment="Left" Width="25" Height="20" Style="{StaticResource TriangleButtonStyle}" 
-                    Background="{StaticResource StandartButton}" BorderBrush="{StaticResource BorderBrush}" RenderTransformOrigin="0.5,0.5" Margin="-11,0,0,0">
+            <Button x:Name="MinusButton" 
+                    HorizontalAlignment="Left" 
+                    Width="25" Height="20" 
+                    Style="{StaticResource TriangleButtonStyle}" 
+                    Background="{StaticResource StandartButton}" 
+                    BorderBrush="{StaticResource BorderBrush}" 
+                    RenderTransformOrigin="0.5,0.5" 
+                    Margin="-11,0,0,0">
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -73,10 +171,22 @@
                     </TransformGroup>
                 </Button.RenderTransform>
             </Button>
-            <Button x:Name="PlusButton" HorizontalAlignment="Right" Width="29" Style="{StaticResource TriangleButtonStyle}" Background="{StaticResource StandartButton}" RenderTransformOrigin="0.5,0.5" Margin="0,0,-14,0"
+            <Button x:Name="PlusButton" 
+                    HorizontalAlignment="Right" 
+                    Width="29" 
+                    Style="{StaticResource TriangleButtonStyle}" 
+                    Background="{StaticResource StandartButton}" 
+                    RenderTransformOrigin="0.5,0.5" 
+                    Margin="0,0,-14,0"
                     BorderBrush="{StaticResource BorderBrush}"/>
-            <Button Width="50" HorizontalAlignment="Left" Content="1...100" Style="{StaticResource ButtonStyle}"
-                    HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" Height="20" Margin="15,0,0,0">
+            <Button Width="50" 
+                    HorizontalAlignment="Left" 
+                    Content="1...100" 
+                    Style="{StaticResource ButtonStyle}"
+                    HorizontalContentAlignment="Center" 
+                    VerticalContentAlignment="Stretch" 
+                    Height="20" 
+                    Margin="15,0,0,0">
 
             </Button>
         </Grid>

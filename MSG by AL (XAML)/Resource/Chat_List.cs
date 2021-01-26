@@ -19,5 +19,8 @@ namespace MSG_by_AL__XAML_.Resource
 
         //Свойство, устанавливающее или возвращающее название чата
         public string Name { get; set; } 
+
+        //ID собеседника
+        public int ID_Friend { get; set; }
     }
 }

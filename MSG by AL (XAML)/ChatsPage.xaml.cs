@@ -76,7 +76,7 @@ namespace MSG_by_AL__XAML_
                 connection.Open();
 
                 //Команда для БД
-                string sql_cmd = "SELECT server_chats.chats.ID, server_chats.chats.Chat_Name FROM server_chats.chats WHERE (ID_User_1=@ID OR ID_User_2=@ID);";
+                string sql_cmd = "SELECT * FROM server_chats.chats WHERE (ID_User_1=@ID OR ID_User_2=@ID);";
 
                 //Создаём команду запроса
                 MySqlCommand cmd = connection.CreateCommand();
@@ -100,6 +100,8 @@ namespace MSG_by_AL__XAML_
                             Chat_List list = new Chat_List();
                             list.ID = int.Parse(reader.GetString(0));
                             list.Name = reader.GetString(1);
+                            if (int.Parse(reader.GetString(2)) == IDuser) list.ID_Friend = int.Parse(reader.GetString(3));
+                            else list.ID_Friend = int.Parse(reader.GetString(2));
                             Chat_list.Items.Add(list);
                         }
                     }
@@ -259,24 +261,14 @@ namespace MSG_by_AL__XAML_
         //Открытие диалога с пользователем
         private void Chat_list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Создаём объект Chat_List, чтобы узнать ID нашего собеседника
+            Chat_List item = (Chat_List) Chat_list.SelectedItem;
+            MessageBox.Show(item.ID_Friend.ToString());
+            IDFriend = item.ID_Friend;
+
             try
             {
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally{
-
-            }
-        }
-
-        //Выгрузка сообщений
-        public void Loading_Messages()
-        {
-            try
-            {
+                
                 //Открываем соединение
                 connection.Open();
 
@@ -307,9 +299,86 @@ namespace MSG_by_AL__XAML_
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                connection.Close();
+
+                //Вызываем функцию загрузки сообщений
+                if (MessageCount <= 100) Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID)");
+                else Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID) LIMIT @COUNT-100,@COUNT;");
+            }
+        }
+
+        //Выгрузка сообщений
+        public void Loading_Messages(string SQL_Command)
+        {
+            try
+            {
+                //Открываем соединение
+                connection.Open();
 
                 //Запрос на выгрузку сообщений (максимум 100)
-                sql_cmd = "";
+                string sql_cmd = SQL_Command;
+
+                //Команда запроса
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры
+                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                myID.Value = IDuser;
+                cmd.Parameters.Add(myID);
+
+                MySqlParameter friendID = new MySqlParameter("@IDFRIEND", MySqlDbType.Int32);
+                friendID.Value = IDFriend;
+                cmd.Parameters.Add(friendID);
+
+                MySqlParameter count_messages = new MySqlParameter("@COUNT", MySqlDbType.Int32);
+                count_messages.Value = MessageCount;
+                cmd.Parameters.Add(count_messages);
+
+                //Здесь прописывается логика отображения сообщений в окне дилога
+                //У "моих" сообщений и сообщений собеседника будет различное цветовое оформление 
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            //
+                            if(int.Parse(reader.GetString(3)) == IDuser)
+                            {
+                                //Создадим объект привязки данных и определим свойства
+                                Message MSG = new Message();
+                                MSG.Message_Text = reader.GetString(1);
+                                MSG.borderBrush = (Brush)Application.Current.Resources["IsMouseOverColor"];
+                                MSG.backGround = (Brush)Application.Current.Resources["IsMouseOverColor"];
+                                Message_List.Items.Add(MSG);
+                            }
+                            if (int.Parse(reader.GetString(3)) == IDFriend)
+                            {
+                                Message MSG = new Message();
+                                MSG.Message_Text = reader.GetString(1);
+                                MSG.borderBrush = (Brush)Application.Current.Resources["BorderBrush"];
+                                MSG.backGround = (Brush)Application.Current.Resources["FriendMessage"];
+                                Message_List.Items.Add(MSG);
+                            }
+                        }
+                    }
+                }
+
+                //Запускаем запрос на отметку сообщений, как прочитанные
+                sql_cmd = "UPDATE server_chats.messages SET Visible_Message = 1 WHERE (ID_Reciever=@MYID AND Visible_Message = 0) LIMIT 1000";
+                //Создаём команду запроса
+                cmd.CommandText = sql_cmd;
+                //Осуществляем запрос
+                cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {

@@ -7,17 +7,86 @@
         mc:Ignorable="d"
         Title="MSG by AL" Height="402" Width="372.8" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black">
     <Grid Margin="0,0,3.2,0.6">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="90*"/>
-            <ColumnDefinition Width="31*"/>
-        </Grid.ColumnDefinitions>
-        <TextBox x:Name="login_txt" Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" Margin="67,138,0,0" Text="" TextAlignment="Center" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225" Grid.ColumnSpan="2"/>
-        <PasswordBox x:Name="password_txt" Style="{StaticResource PasswordBoxStyle}" Margin="67,191,0,0"  Width="225" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0"
-                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14" Foreground="{StaticResource TextColor1}" Grid.ColumnSpan="2"/>
-        <Label Content="Логин" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="155,108,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" FontSize="14"/>
-        <Label Content="Пароль" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="148,161,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65" FontSize="14"/>
-        <Label Content="Авторизация" Style="{StaticResource LabelStyle}" RenderTransformOrigin="0.5,0.562" Margin="92,37,0,0" FontSize="26" Height="45" VerticalAlignment="Top" HorizontalAlignment="Left" Width="176"/>
-        <Button Content="Войти" Style="{StaticResource ButtonStyle}" VerticalAlignment="Top" Margin="67,235,0,0" Height="23" HorizontalAlignment="Left" Width="225" Click="Login_Click" Grid.ColumnSpan="2"/>
-        <Button Content="Зарегистрироваться" Style="{StaticResource ButtonStyle}" VerticalAlignment="Top" Margin="67,278,0,0" Height="23" HorizontalAlignment="Left" Width="225" Click="SignUp_Click" Grid.ColumnSpan="2"/>
+
+        <!--Поле для ввода логина-->
+        <TextBox x:Name="login_txt" 
+                 Style="{StaticResource TextBoxStyle}" 
+                 TextWrapping="Wrap" 
+                 Margin="67,138,0,0" 
+                 Text="" 
+                 TextAlignment="Center"
+                 Height="25" 
+                 VerticalAlignment="Top" 
+                 HorizontalAlignment="Left" 
+                 Width="225"
+                 Grid.ColumnSpan="2"/>
+
+        <!--Поле для ввода пароля-->
+        <PasswordBox x:Name="password_txt" 
+                     Style="{StaticResource PasswordBoxStyle}" 
+                     Margin="67,191,0,0"  
+                     Width="225"
+                     Height="25"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Left"
+                     Background="Transparent" 
+                     BorderThickness="0"
+                     HorizontalContentAlignment="Center" 
+                     VerticalContentAlignment="Center" 
+                     FontSize="14" 
+                     Foreground="{StaticResource TextColor1}" 
+                     Grid.ColumnSpan="2"/>
+
+        <!--Просто label'ы-->
+        <Label Content="Логин" 
+               Style="{StaticResource LabelStyle}" 
+               RenderTransformOrigin="0.5,0.562" 
+               Margin="155,108,0,0" 
+               Height="25" 
+               VerticalAlignment="Top" 
+               HorizontalAlignment="Left"
+               Width="50" 
+               FontSize="14"/>
+        <Label Content="Пароль" 
+               Style="{StaticResource LabelStyle}" 
+               RenderTransformOrigin="0.5,0.562" 
+               Margin="148,161,0,0" 
+               Height="30" 
+               VerticalAlignment="Top" 
+               HorizontalAlignment="Left" 
+               Width="65" 
+               FontSize="14"/>
+        <Label Content="Авторизация" 
+               Style="{StaticResource LabelStyle}" 
+               RenderTransformOrigin="0.5,0.562"
+               Margin="92,37,0,0" 
+               FontSize="26" 
+               Height="45"
+               VerticalAlignment="Top"
+               HorizontalAlignment="Left"
+               Width="176"/>
+
+        <!--Кнопка для авторизации пользователя-->
+        <Button Content="Войти" 
+                Style="{StaticResource ButtonStyle}" 
+                VerticalAlignment="Top"
+                Margin="67,235,0,0" 
+                Height="23" 
+                HorizontalAlignment="Left" 
+                Width="225"
+                Click="Login_Click"
+                Grid.ColumnSpan="2"/>
+
+        <!--Кнопка для регистрации пользователя-->
+        <Button Content="Зарегистрироваться" 
+                Style="{StaticResource ButtonStyle}" 
+                VerticalAlignment="Top"
+                Margin="67,278,0,0" 
+                Height="23" 
+                HorizontalAlignment="Left" 
+                Width="225" 
+                Click="SignUp_Click"
+                Grid.ColumnSpan="2"/>
+
     </Grid>
 </Window>
