@@ -38,6 +38,7 @@ namespace MSG_by_AL__XAML_
 
         //Создание объекта подключения к БД
         MySqlConnection connection = DBUtils.GetDBConnection();
+        MySqlConnection connection_async = DBUtils.GetDBConnection();
 
         //Очистка всех списков (сообщений, чатов, пользователей)
         public void Clear_List()
@@ -179,40 +180,54 @@ namespace MSG_by_AL__XAML_
         //Отпрвака сообщения
         private void Send_Message_Click(object sender, RoutedEventArgs e)
         {
-            try
+            //Чтобы не отправлялись пустые сообщения
+            if (TextBox_Message.Text.Length != 0)
             {
-                //Открываем соединение
-                connection.Open();
+                try
+                {
+                    //Открываем соединение
+                    connection.Open();
 
-                //Строка запроса для БД (недописана)
-                string sql_cmd = "INSERT INTO server_chats.";
+                    //Строка запроса для БД (недописана)
+                    string sql_cmd = "INSERT INTO server_chats.messages (Text_Message, Date_Message, ID_Sender, ID_Reciever, Visible_Message) VALUES (@TEXT, NOW(), @MYID, @FRIENDID, 0);";
 
-                Chat_List msg1 = new Chat_List();
-                msg1.Name = "1234";
-                Message msg = new Message();
-                Message msg2 = new Message();
-                msg.Message_Text = "Привет!\nКак дела?\nЧто нового?";
-                msg2.Message_Text = "Привет, просто привет\nАхахвхаха";
-                msg.borderBrush = (Brush)Application.Current.Resources["IsMouseOverColor"];
-                msg.backGround = (Brush)Application.Current.Resources["BorderBrush"];
-                msg2.backGround = (Brush)Application.Current.Resources["IsMouseOverColor"];
-                msg2.borderBrush = (Brush)Application.Current.Resources["BorderBrush"];
-                Message_List.Items.Add(msg);
-                Message_List.Items.Add(msg2);
+                    //Команда запроса
+                    MySqlCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = sql_cmd;
 
+                    //Добавляем параметры
+                    MySqlParameter text_message = new MySqlParameter("@TEXT", MySqlDbType.Text);
+                    text_message.Value = TextBox_Message.Text;
+                    cmd.Parameters.Add(text_message);
 
-                User_List.Items.Clear();
-                User_List.Items.Add(msg);
-                Chat_list.Items.Add(msg1);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                //Закрываем соединение
-                connection.Close();
+                    MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                    myID.Value = IDuser;
+                    cmd.Parameters.Add(myID);
+
+                    MySqlParameter friendID = new MySqlParameter("@FRIENDID", MySqlDbType.Int32);
+                    friendID.Value = IDFriend;
+                    cmd.Parameters.Add(friendID);
+
+                    //Выполняем запрос
+                    cmd.ExecuteNonQuery();
+
+                    //Добавляем сообщение в диалог
+                    Message my_message = new Message();
+                    my_message.Message_Text = TextBox_Message.Text;
+                    my_message.backGround = (Brush)Application.Current.Resources["MyMessageColor"];
+                    my_message.borderBrush = (Brush)Application.Current.Resources["MyMessageColor"];
+                    Message_List.Items.Add(my_message);
+                    TextBox_Message.Text = "";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                {
+                    //Закрываем соединение
+                    connection.Close();
+                }
             }
 
         }
@@ -263,7 +278,6 @@ namespace MSG_by_AL__XAML_
         {
             //Создаём объект Chat_List, чтобы узнать ID нашего собеседника
             Chat_List item = (Chat_List) Chat_list.SelectedItem;
-            MessageBox.Show(item.ID_Friend.ToString());
             IDFriend = item.ID_Friend;
 
             try
@@ -357,8 +371,8 @@ namespace MSG_by_AL__XAML_
                                 //Создадим объект привязки данных и определим свойства
                                 Message MSG = new Message();
                                 MSG.Message_Text = reader.GetString(1);
-                                MSG.borderBrush = (Brush)Application.Current.Resources["IsMouseOverColor"];
-                                MSG.backGround = (Brush)Application.Current.Resources["IsMouseOverColor"];
+                                MSG.borderBrush = (Brush)Application.Current.Resources["MyMessageColor"];
+                                MSG.backGround = (Brush)Application.Current.Resources["MyMessageColor"];
                                 Message_List.Items.Add(MSG);
                             }
                             if (int.Parse(reader.GetString(3)) == IDFriend)
@@ -366,19 +380,12 @@ namespace MSG_by_AL__XAML_
                                 Message MSG = new Message();
                                 MSG.Message_Text = reader.GetString(1);
                                 MSG.borderBrush = (Brush)Application.Current.Resources["BorderBrush"];
-                                MSG.backGround = (Brush)Application.Current.Resources["FriendMessage"];
+                                MSG.backGround = (Brush)Application.Current.Resources["FriendMessageColor"];
                                 Message_List.Items.Add(MSG);
                             }
                         }
                     }
                 }
-
-                //Запускаем запрос на отметку сообщений, как прочитанные
-                sql_cmd = "UPDATE server_chats.messages SET Visible_Message = 1 WHERE (ID_Reciever=@MYID AND Visible_Message = 0) LIMIT 1000";
-                //Создаём команду запроса
-                cmd.CommandText = sql_cmd;
-                //Осуществляем запрос
-                cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -388,7 +395,115 @@ namespace MSG_by_AL__XAML_
             {
                 //Закрываем соединение
                 connection.Close();
+                Mark_Read();
             }
+        }
+
+        //Отметка сообщений прочитанными
+        public void Mark_Read()
+        {
+            try
+            {
+                //Открываем соединение
+                connection.Open();
+
+                //Запускаем запрос на отметку сообщений, как прочитанные
+                string sql_cmd = "UPDATE server_chats.messages SET Visible_Message = 1 WHERE (ID_Reciever=@MYID AND ID_Sender = @FRIENDID AND Visible_Message = 0) LIMIT 1000";
+
+                //Создаём команду запроса
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры в запрос
+                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                myID.Value = IDuser;
+                cmd.Parameters.Add(myID);
+
+                MySqlParameter friendID = new MySqlParameter("@FRIENDID", MySqlDbType.Int32);
+                friendID.Value = IDFriend;
+                cmd.Parameters.Add(friendID);
+
+                //Осуществляем запрос
+                cmd.ExecuteNonQuery();
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрыавем соединение 
+                connection.Close();
+            }
+        }
+
+        //Отдельная функция обновлений
+        public void Refresh_Chat()
+        {
+            try
+            {
+                //Открываем соединение
+                connection_async.Open();
+
+                //Строка запроса
+                string sql_cmd = "SELECT * FROM server_chats.messages WHERE (ID_Reciever = @MYID AND ID_Sender = @FRIENDID AND Visible_Message = 0);";
+
+                //Команда запроса
+                MySqlCommand cmd = connection_async.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры запроса
+                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                myID.Value = IDuser;
+                cmd.Parameters.Add(myID);
+
+                MySqlParameter friendID = new MySqlParameter("@FRIENDID", MySqlDbType.Int32);
+                friendID.Value = IDFriend;
+                cmd.Parameters.Add(friendID);
+
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            Message friend_message = new Message();
+                            friend_message.Message_Text = reader.GetString(1);
+                            friend_message.backGround = (Brush)Application.Current.Resources["FriendMessageColor"];
+                            friend_message.borderBrush = (Brush)Application.Current.Resources["FriendMessageColor"];
+                            Message_List.Items.Add(friend_message);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                connection_async.Close();
+                Mark_Read();
+            }
+        }
+
+        //Обновление сообщений в текущем диалоге
+        private void Refresh_Message_Click(object sender, RoutedEventArgs e)
+        {
+            Refresh_Chat();
+        }
+
+        //Пробная работа асинхронной проверки наличия непрочитанных сообщений
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Refresh_Chat_Async();
+        }
+
+        //Запуск асинхронной операции
+        public async void Refresh_Chat_Async()
+        {
+            await Task.Run(() => Refresh_Chat());
         }
     }
 }

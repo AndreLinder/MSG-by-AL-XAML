@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Resource"
         mc:Ignorable="d"
         Title="MSG by AL" Height="577.2" Width="890" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black" Closing="ChatPage_Closing">
-    <Grid>
+    <Grid Margin="0,0,0.2,0">
         <!--Кнопка обновления списка чатов-->
         <Button x:Name="Update_Chat_List" 
                 Style="{StaticResource ButtonStyleICO}" 
@@ -14,21 +14,23 @@
                 VerticalAlignment="Top" 
                 Width="40" 
                 Height="40" 
-                Margin="10,497,0,0" 
+                Margin="10,459,0,0" 
                 Click="Update_Chat_List_Click" 
                 FontFamily="Palatino Linotype" 
                 local:ButtonImage.Image="New_Refresh.ico">
         </Button>
-        
+
+        <!--Кнопка обновления сообщений в чате-->
+
         <!--Диалоговое окно со списком чатов-->
         <ListBox x:Name="Chat_list" 
                  HorizontalAlignment="Left" 
-                 Height="460" 
+                 Height="422" 
                  VerticalAlignment="Top" 
                  Width="160" 
                  Cursor="Hand" 
                  Background="#FF1B1B1B" 
-                 Foreground="{DynamicResource BorderBrush}" 
+                 Foreground="{DynamicResource TextColor2}" 
                  BorderBrush="{DynamicResource BorderBrush}" 
                  BorderThickness="3" 
                  Margin="1,32,0,0" 
@@ -42,26 +44,28 @@
                                 Width="140" 
                                 Height="20">
                             <TextBlock Text="{Binding Name}" 
-                                       Background="{x:Null}" 
+                                       Background="Transparent" 
                                        HorizontalAlignment="Center" 
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"/>
                         </Border>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <!--Кнопка отправки сообщения-->
         <Button x:Name="Send_Message" 
                 Style="{StaticResource ButtonStyle}" 
                 Content="Отправить" 
                 Height="33" 
                 HorizontalAlignment="Left" 
-                Margin="560,497,0,0" 
+                Margin="560,459,0,0" 
                 VerticalAlignment="Top" 
                 Width="100" 
                 Click="Send_Message_Click"/>
-        
+
         <!--Поле поиска пользователей в программе-->
         <TextBox x:Name="User_Search" 
                  Style="{StaticResource TextBoxStyle}" 
@@ -72,7 +76,7 @@
                  VerticalAlignment="Top" 
                  Width="208" 
                  TextChanged="User_Search_Changed"/>
-        
+
         <!--Список найденных пользователей-->
         <ListBox x:Name="User_List" 
                  HorizontalAlignment="Left" 
@@ -81,7 +85,6 @@
                  Width="216" 
                  Cursor="Hand" 
                  Background="#FF1B1B1B" 
-                 Foreground="{DynamicResource TextColor2}" 
                  BorderBrush="{DynamicResource BorderBrush}" 
                  BorderThickness="3" 
                  Margin="656,32,0,0"
@@ -97,27 +100,30 @@
                             <TextBlock Text="{Binding Name}" 
                                        Background="Transparent" 
                                        HorizontalAlignment="Center" 
-                                       VerticalAlignment="Center"/>
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextColor2}"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"/>
                         </Border>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <!--Поле для ввода и отправки сообщения-->
         <TextBox x:Name="TextBox_Message" 
                  Style="{StaticResource TextBoxStyle}" 
                  HorizontalAlignment="Left" 
-                 Height="33" 
-                 Margin="165,497,0,0" 
+                 Height="71" 
+                 Margin="165,459,0,0" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" 
                  Width="390"/>
-        
+
         <!--Список сообщений из определённого диалога-->
         <ListBox x:Name="Message_List" 
                  HorizontalAlignment="Left" 
-                 Height="460" 
+                 Height="422" 
                  Margin="158,32,0,0" 
                  VerticalAlignment="Top" 
                  Width="500" 
@@ -139,19 +145,24 @@
                         <Border CornerRadius="5" 
                                 Background="{Binding backGround}" 
                                 BorderBrush="{Binding borderBrush}" 
-                                BorderThickness="0">
+                                BorderThickness="0"
+                                Height="Auto">
                             <TextBlock x:Name="Message" 
                                        Text="{Binding Message_Text}" 
                                        Background="Transparent"
-                                       Foreground="{StaticResource TextColor2}"
+                                       Foreground="Black"
                                        FontSize="14"
-                                       FontFamily="Palatino Linotype"/>
+                                       FontFamily="Palatino Linotype"
+                                       Width="Auto"
+                                       Height="Auto"
+                                       TextWrapping="Wrap"
+                                       MaxWidth="475"/>
                         </Border>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        
+
         <!--"Ползунок" для выборки определённого кол-ва сообщений из диалога-->
         <Grid Margin="577,0,215.2,505">
             <Button x:Name="MinusButton" 
@@ -190,5 +201,15 @@
 
             </Button>
         </Grid>
+        <Button x:Name="Refresh_Message" 
+            Style="{StaticResource ButtonStyle}" 
+            Content="Обновить диалог" 
+            Height="33" 
+            HorizontalAlignment="Left" 
+            Margin="560,497,0,0" 
+            VerticalAlignment="Top" 
+            Width="100" 
+            Click="Refresh_Message_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="707,468,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
     </Grid>
 </Window>

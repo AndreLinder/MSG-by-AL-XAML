@@ -2,11 +2,21 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Resource">
 
-    <!--Цвет сообщения собеседника-->
-    <LinearGradientBrush x:Key="FriendMessage" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF48CC17"/>
-        <GradientStop Color="#FFCCB317" Offset="1"/>
+    <!--Цвета сообщений собеседника и своих-->
+    <LinearGradientBrush x:Key="FriendMessageColor" 
+                         EndPoint="0.5,1" 
+                         StartPoint="0.5,0">
+        <GradientStop Color="#FF0449EB" Offset="0"/>
+        <GradientStop Color="#FF6DBFF9" Offset="1"/>
     </LinearGradientBrush>
+    <LinearGradientBrush x:Key="MyMessageColor" 
+                         EndPoint="0.5,1" 
+                         StartPoint="0.5,0">
+        <GradientStop Color="#FFFF8900" Offset="0"/>
+        <GradientStop Color="#FFFFDC00" Offset="1"/>
+    </LinearGradientBrush>
+
+
 
     <!--Цвет границ элементов-->
     <LinearGradientBrush x:Key="BorderBrush" 
@@ -103,7 +113,9 @@
                                    FontFamily="Palatino Linotype" 
                                    Foreground="{TemplateBinding Button.Foreground}" 
                                    HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center"/>
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"/>
                     </Grid>
                 <ControlTemplate.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
