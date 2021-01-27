@@ -121,7 +121,7 @@
                  Width="390"/>
 
         <!--Список сообщений из определённого диалога-->
-        <ListBox x:Name="Message_List" 
+            <ListBox x:Name="Message_List" 
                  HorizontalAlignment="Left" 
                  Height="422" 
                  Margin="158,32,0,0" 
@@ -132,11 +132,11 @@
                  BorderBrush="{DynamicResource BorderBrush}"
                  BorderThickness="3" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
                 </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+                </ListBox.ItemsPanel>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Width="490"  
@@ -163,7 +163,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <!--"Ползунок" для выборки определённого кол-ва сообщений из диалога-->
+            <!--"Ползунок" для выборки определённого кол-ва сообщений из диалога-->
         <Grid Margin="577,0,215.2,505">
             <Button x:Name="MinusButton" 
                     HorizontalAlignment="Left" 

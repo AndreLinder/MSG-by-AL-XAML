@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Threading;
 using MySql.Data.MySqlClient;
 using ConnectionDB;
 using MSG_by_AL__XAML_.Resource;
@@ -22,6 +23,10 @@ namespace MSG_by_AL__XAML_
     /// </summary>
     public partial class ChatsPage : Window
     {
+
+        public delegate void MyDelegate(Message item);
+        MyDelegate myDelegate;
+
         //Логин авторизованного пользователя
         public static string NickName = "null";
         //ID авторизованного пользователя
@@ -495,15 +500,70 @@ namespace MSG_by_AL__XAML_
         }
 
         //Пробная работа асинхронной проверки наличия непрочитанных сообщений
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            Refresh_Chat_Async();
+            await Task.Run(()=>Refresh_Chat_Async());
         }
 
         //Запуск асинхронной операции
         public async void Refresh_Chat_Async()
         {
-            await Task.Run(() => Refresh_Chat());
+            while (IDFriend != -1)
+            {
+                //Проверка на наличие непрочитанных сообщений
+                bool unreadMessage = false;
+                try
+                {
+                    //Открываем соединение
+                    await connection_async.OpenAsync();
+                    //Строка запроса
+                    string sql_cmd = "SELECT * FROM server_chats.messages WHERE (ID_Reciever = @MYID AND ID_Sender = @FRIENDID AND Visible_Message = 0);";
+
+                    //Команда запроса
+                    MySqlCommand cmd = connection_async.CreateCommand();
+                    cmd.CommandText = sql_cmd;
+
+                    //Добавляем параметры запроса
+                    MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                    myID.Value = IDuser;
+                    cmd.Parameters.Add(myID);
+
+                    MySqlParameter friendID = new MySqlParameter("@FRIENDID", MySqlDbType.Int32);
+                    friendID.Value = IDFriend;
+                    cmd.Parameters.Add(friendID);
+
+                    //Проверяем в БД непрочитанные нами сообщения
+                    using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                Message friend_message = new Message();
+                                friend_message.Message_Text = reader.GetString(1);
+                                friend_message.backGround = (Brush)Application.Current.Resources["FriendMessageColor"];
+                                friend_message.borderBrush = (Brush)Application.Current.Resources["FriendMessageColor"];
+                                //Выполняет указанный делегат в оснвном потоке (т.к. к Control'у я не могу обратиться из этого потока)
+                                Dispatcher.Invoke(() => Message_List.Items.Add(friend_message));
+                                //Если непрочитанные сообщения есть, то нужно отметить их прочитанными
+                                unreadMessage = true;
+                            }
+                        }
+                    }
+                    //В зависимости от того, есть ли сообщения непрочитанные
+                    //Выполняем функцию отметки сообщений
+                    if (unreadMessage) Mark_Read();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                {
+                    //Закрываем соединение
+                    await connection_async.CloseAsync();
+                }
+            }
         }
     }
 }
