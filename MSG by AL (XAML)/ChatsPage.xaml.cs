@@ -48,6 +48,7 @@ namespace MSG_by_AL__XAML_
             InitializeComponent();
             Clear_List();
             Update_Dialog_List();
+            Update_Friend_List();
         }
 
         //Очистка всех списков (сообщений, чатов, пользователей)
@@ -94,6 +95,50 @@ namespace MSG_by_AL__XAML_
                             if (int.Parse(reader.GetString(2)) == IDuser) list.ID_Friend = int.Parse(reader.GetString(3));
                             else list.ID_Friend = int.Parse(reader.GetString(2));
                             Chat_list.Items.Add(list);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                connection.Close();
+            }
+        }
+
+        public void Update_Friend_List()
+        {
+            try
+            {
+                //Открываем соединение
+                connection.Open();
+
+                //Строка запроса для выборки друзей авторизованного пользователя
+                string sql_cmd = "SELECT * FROM server_chats.friend WHERE ID_User = @MYID;";
+
+                //Команда запроса
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры
+                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                myID.Value = IDuser;
+                cmd.Parameters.Add(myID);
+
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            Chat_List user = new Chat_List();
+                            user.ID_Friend = int.Parse(reader.GetString(1));
+                            user.Name = reader.GetString(2);
+                            Friend_List.Items.Add(user);
                         }
                     }
                 }
@@ -387,6 +432,7 @@ namespace MSG_by_AL__XAML_
                             Chat_List user = new Chat_List();
                             IDFriend = int.Parse(reader.GetString(0));
                             user.Name = reader.GetString(1);
+                            user.ID_Friend = IDFriend;
                             User_List.Items.Add(user);
                             Friend_Nick = reader.GetString(2);
                         }
@@ -514,6 +560,8 @@ namespace MSG_by_AL__XAML_
             //Создаём объект Chat_List, чтобы узнать ID нашего собеседника
             Chat_List item = (Chat_List)Chat_list.SelectedItem;
             IDFriend = item.ID_Friend;
+            Close_Dialog.Visibility = Visibility.Visible;
+            MySlider.Visibility = Visibility.Visible;
 
             try
             {
@@ -570,6 +618,71 @@ namespace MSG_by_AL__XAML_
         private void Refresh_Message_Click(object sender, RoutedEventArgs e)
         {
             Refresh_Chat();
+        }
+
+        //Действия при закрытии диалога
+        private void Close_Dialog_Click(object sender, RoutedEventArgs e)
+        {
+            //Очщаем все списки
+            Clear_List();
+
+            //Стираем все данные о собеседнике
+            IDFriend = -1;
+            Friend_Nick = "null";
+
+            //Скрываем элементы управления диалогом
+            Close_Dialog.Visibility = Visibility.Hidden;
+            MySlider.Visibility = Visibility.Hidden;
+
+        }
+
+        //Добавление пользователя в друзья
+        private void AddToFriend_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //Объект item'а, но только первого (если будут с одинаковыми именами, тогда будут проблемы)
+                //Нужно изменить функцию поиска с имени на никнейм
+                Chat_List user = (Chat_List) User_List.Items[0];
+
+                //Открываем соединение 
+                connection.Open();
+
+                //Строка запроса на добавление пользователя в список друзей
+                string sql_cmd = "INSERT INTO server_chats.friend VALUES (@MYID, @IDFRIEND, @FRIENDNAME);";
+
+                //Команда запроса
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры
+                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                myID.Value = IDuser;
+                cmd.Parameters.Add(myID);
+
+                MySqlParameter friendID = new MySqlParameter("@IDFRIEND", MySqlDbType.Int32);
+                friendID.Value = user.ID_Friend;
+                cmd.Parameters.Add(friendID);
+
+                MySqlParameter name = new MySqlParameter("@FRIENDNAME", MySqlDbType.VarChar);
+                name.Value = user.Name;
+                cmd.Parameters.Add(name);
+
+                //Запускаем команду
+                cmd.ExecuteNonQuery();
+
+                //После успешного выполнения команды, будет дополнен список друзей
+                Friend_List.Items.Add(user);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                connection.Close();
+            }
         }
     }
 }

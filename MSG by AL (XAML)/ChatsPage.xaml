@@ -7,21 +7,109 @@
         mc:Ignorable="d"
         Title="MSG by AL" Height="577.2" Width="890" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black" Closing="ChatPage_Closing">
     <Grid Margin="0,0,0.2,0">
+        <!--Список найденных пользователей-->
+        <ListBox x:Name="User_List" 
+                 HorizontalAlignment="Left" 
+                 Height="37" 
+                 VerticalAlignment="Top" 
+                 Width="216" 
+                 Cursor="Hand" 
+                 Background="#FF1B1B1B" 
+                 BorderBrush="{DynamicResource BorderBrush}" 
+                 BorderThickness="3" 
+                 Margin="656,32,0,0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 SelectionChanged="User_List_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="10" 
+                                Background="{StaticResource IsMouseOverColor}" 
+                                Width="146" 
+                                Height="25">
+                                <TextBlock Text="{Binding Name}" 
+                                       Background="Transparent" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextColor2}"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"
+                                       TextWrapping="Wrap"/>
+                            </Border>
+                            <Button x:Name="AddToFriend" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="Add.ico"
+                                    Height="25"
+                                    Width="25"
+                                    Click="AddToFriend_Click"/>
+                            <Button x:Name="Writing" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="Write.ico"
+                                    Height="25"
+                                    Width="25"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--Список моих друзей-->
+        <ListBox x:Name="Friend_List" 
+                 HorizontalAlignment="Left" 
+                 Height="389" 
+                 VerticalAlignment="Top" 
+                 Width="216" 
+                 Cursor="Hand" 
+                 Background="#FF1B1B1B" 
+                 BorderBrush="{DynamicResource BorderBrush}" 
+                 BorderThickness="3" 
+                 Margin="656,66,0,0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="10" 
+                                Background="{StaticResource IsMouseOverColor}" 
+                                Width="146" 
+                                Height="25">
+                                <TextBlock Text="{Binding Name}" 
+                                       Background="Transparent" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextColor2}"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"
+                                       TextWrapping="Wrap"/>
+                            </Border>
+                            <Button x:Name="Writing" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="Write.ico"
+                                    Height="25"
+                                    Width="25"/>
+                            <Button x:Name="DeleteFromFriend" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="New_Delete.ico"
+                                    Height="25"
+                                    Width="25"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <!--Кнопка обновления списка чатов-->
         <Button x:Name="Update_Chat_List" 
                 Style="{StaticResource ButtonStyleICO}" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
-                Width="40" 
-                Height="40" 
-                Margin="10,459,0,0" 
+                Width="26" 
+                Height="26" 
+                Margin="5,3,0,0" 
                 Click="Update_Chat_List_Click" 
                 FontFamily="Palatino Linotype" 
-                local:ButtonImage.Image="Refresh.ico">
-        </Button>
-
-        
-        <!--Кнопка обновления сообщений в чате-->
+                local:ButtonImage.Image="New_Refresh.ico" RenderTransformOrigin="0.46,0.505"/>
 
         <!--Диалоговое окно со списком чатов-->
         <ListBox x:Name="Chat_list" 
@@ -78,76 +166,6 @@
                  Width="208" 
                  TextChanged="User_Search_Changed"/>
 
-        <!--Список найденных пользователей-->
-        <ListBox x:Name="User_List" 
-                 HorizontalAlignment="Left" 
-                 Height="37" 
-                 VerticalAlignment="Top" 
-                 Width="216" 
-                 Cursor="Hand" 
-                 Background="#FF1B1B1B" 
-                 BorderBrush="{DynamicResource BorderBrush}" 
-                 BorderThickness="3" 
-                 Margin="656,32,0,0"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                 SelectionChanged="User_List_SelectionChanged">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                        <Border CornerRadius="10" 
-                                Background="{StaticResource IsMouseOverColor}" 
-                                Width="146" 
-                                Height="25">
-                            <TextBlock Text="{Binding Name}" 
-                                       Background="Transparent" 
-                                       HorizontalAlignment="Center" 
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource TextColor2}"
-                                       FontSize="14"
-                                       FontFamily="Palatino Linotype"
-                                       TextWrapping="Wrap"/>
-                        </Border>
-                            <Button x:Name="AddToFriend" 
-                                    Style="{StaticResource ButtonStyleICO}"
-                                    local:ButtonImage.Image="Add.ico"
-                                    Height="25"
-                                    Width="25">
-                            </Button>
-                            <Button x:Name="Writing" 
-                                    Style="{StaticResource ButtonStyleICO}"
-                                    local:ButtonImage.Image="Write.ico"
-                                    Height="25"
-                                    Width="25">
-                            </Button>
-                        </StackPanel>
-                        <!--<StackPanel Orientation="Horizontal">
-                            --><!--Добавить в друзья--><!--
-                            <Button x:Name="AddToFriend"
-                                      Background="{StaticResource StandartButton}"
-                                      Height="26"
-                                      Width="26"
-                                      BorderThickness="0">
-                                <Path Stroke="Black" 
-                                       Fill="Black" 
-                                       Data="M 5,1 L 5,6 L 0,6 L 0,7 L 5,7 L 5,12 L 6,12 L 6,7 L 11,7 L 11,6 L 6,6 L 6,1 L 5,1"/>
-                        </Button>
-                            --><!--Написать пользователю--><!--
-                            <Button x:Name="Writing"
-                                    Height="26"
-                                    Width="26"
-                                    Background="{StaticResource StandartButton}"
-                                    BorderThickness="0">
-                                <Path Stroke="Black"
-                                      Fill="Black"
-                                      Data="M 3,18 L 6,16 L 4,14 L 3,18 M 8,14 L 18,4 L 16,2 L 6,12 L 8,14"/>
-                            </Button>
-                        </StackPanel>-->
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-
         <!--Поле для ввода и отправки сообщения-->
         <TextBox x:Name="TextBox_Message" 
                  Style="{StaticResource TextBoxStyle}" 
@@ -202,7 +220,7 @@
         </ListBox>
 
         <!--"Ползунок" для выборки определённого кол-ва сообщений из диалога-->
-        <Grid Margin="577,0,215.2,505">
+        <Grid x:Name="MySlider" Margin="577,0,215.2,505">
             <Button x:Name="MinusButton" 
                     HorizontalAlignment="Left" 
                     Width="25" Height="20" 
@@ -235,11 +253,9 @@
                     HorizontalContentAlignment="Center" 
                     VerticalContentAlignment="Stretch" 
                     Height="20" 
-                    Margin="15,0,0,0">
-
-            </Button>
+                    Margin="15,0,0,0"/>
         </Grid>
-        
+
         <!--Скоро должна быть удалена-->
         <Button x:Name="Refresh_Message" 
             Style="{StaticResource ButtonStyle}" 
@@ -250,5 +266,12 @@
             VerticalAlignment="Top" 
             Width="100" 
             Click="Refresh_Message_Click"/>
+        <Button x:Name="Close_Dialog"
+                Background="{StaticResource StandartButton}" 
+                Margin="158,0,691,505"
+                local:ButtonImage.Image="GoToBack.ico"
+                Style="{StaticResource ButtonStyleICO2}" Click="Close_Dialog_Click"/>
+
+        <!--Список моих друзей-->
     </Grid>
 </Window>
