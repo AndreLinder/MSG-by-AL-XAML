@@ -333,87 +333,54 @@ namespace MSG_by_AL__XAML_
             }
         }
 
-        //Проверка есть ли пользователь уже в друзьях
-        public bool Check_User_In_Friend(int friendID)
+        //Создание нового диалога с пользователем
+        public bool CreateNewChat(int friendID)
         {
-            bool thereIs = false;
+            bool succesfull = false;
             try
             {
                 //Открываем соединение
                 connection.Open();
 
                 //Строка запроса
-                string sql_cmd = "SELECT * FROM server_chats.friend WHERE ID_User = @MYID AND ID_Friend = @IDFRIEND;";
+                string sql_cmd = "INSERT INTO server_chats.chats (Chat_name, ID_User_1, ID_User_2) VALUES (@CHATNAME,@IDUSER1, @IDUSER2)";
 
                 //Команда запроса
                 MySqlCommand cmd = connection.CreateCommand();
                 cmd.CommandText = sql_cmd;
 
-                //Добавляем параметры
-                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
-                myID.Value = IDuser;
-                cmd.Parameters.Add(myID);
+                //Добавляем параметры в наш запрос
+                MySqlParameter name_parameter = new MySqlParameter("@CHATNAME", MySqlDbType.VarChar);
+                name_parameter.Value = Convert.ToString(NickName + " to " + Friend_Nick);
+                cmd.Parameters.Add(name_parameter);
 
-                MySqlParameter friendid = new MySqlParameter("@IDFRIEND", MySqlDbType.Int32);
-                friendid.Value = friendID;
-                cmd.Parameters.Add(friendid);
+                MySqlParameter id1 = new MySqlParameter("@IDUSER1", MySqlDbType.Int32);
+                id1.Value = IDuser;
+                cmd.Parameters.Add(id1);
 
-                using (DbDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            if (IDuser == int.Parse(reader.GetString(0)) & friendID == int.Parse(reader.GetString(1))) thereIs = true;
-                            else thereIs = false;
-                        }
-                    }
-                }
+                MySqlParameter id2 = new MySqlParameter("@IDUSER2", MySqlDbType.Int32);
+                id2.Value = friendID;
+                cmd.Parameters.Add(id2);
+
+                cmd.ExecuteNonQuery();
             }
-            catch (Exception ex)
+            catch (MySqlException ex)
             {
+                if (ex.Number == 1062)
+                {
+                    connection.Close();
+                    return false;
+                }
                 MessageBox.Show(ex.ToString());
             }
             finally
             {
                 //Закрываем соединение
                 connection.Close();
+                succesfull = true;
             }
-            //Возвращаем соответствующее значение: есть в друзьях или нет
-            return thereIs;
-        }
-
-        //Проверка наличия существующего чата
-        public bool Check_Chat_With_User(int friendID)
-        {
-            bool thereIs = false;
-            try
-            {
-
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-
-            }
-            return thereIs;
-        }
-
-        //Создание нового диалога с пользователем
-        public void CreateNewChat(int friendID)
-        {
-            if(Check_Chat_With_User(friendID) == false)
-            {
-                //Создаём новый чат
-            }
-            else
-            {
-                //Открываем существующий чат
-            }
-
+            Update_Dialog_List();
+            return succesfull;
         }
 
         //Метод открытия диалога с пользователем
@@ -679,42 +646,7 @@ namespace MSG_by_AL__XAML_
         //Создание или открытие диалога с пользователем (необработана проверка на наличие существующего диалога)
         private void User_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try
-            {
-                //Открываем соединение
-                connection.Open();
-
-                //Строка запроса
-                string sql_cmd = "INSERT INTO server_chats.chats (Chat_name, ID_User_1, ID_User_2) VALUES (@CHATNAME,@IDUSER1, @IDUSER2)";
-
-                //Команда запроса
-                MySqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = sql_cmd;
-
-                //Добавляем параметры в наш запрос
-                MySqlParameter name_parameter = new MySqlParameter("@CHATNAME", MySqlDbType.VarChar);
-                name_parameter.Value = Convert.ToString(NickName + " to " + Friend_Nick);
-                cmd.Parameters.Add(name_parameter);
-
-                MySqlParameter id1 = new MySqlParameter("@IDUSER1", MySqlDbType.Int32);
-                id1.Value = IDuser;
-                cmd.Parameters.Add(id1);
-
-                MySqlParameter id2 = new MySqlParameter("@IDUSER2", MySqlDbType.Int32);
-                id2.Value = IDFriend;
-                cmd.Parameters.Add(id2);
-
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                //Закрываем соединение
-                connection.Close();
-            }
+           
         }
 
         //Действия при закрытии диалога
@@ -737,10 +669,6 @@ namespace MSG_by_AL__XAML_
         //Добавление пользователя в друзья
         private void AddToFriend_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            //Проверяем, нет ли его уже у нас в друзьях
-            if (Check_User_In_Friend(int.Parse(btn.Content.ToString())) != true)
-            {
                 try
                 {
                     //Объект item'а, но только первого (если будут с одинаковыми именами, тогда будут проблемы)
@@ -784,9 +712,8 @@ namespace MSG_by_AL__XAML_
                 {
                     //Закрываем соединение
                     connection.Close();
+                    User_Search.Clear();
                 }
-            }
-            else MessageBox.Show("Пользователь уже есть у вас в друзьях!");
         }
 
         //Открытие диалога
@@ -852,7 +779,7 @@ namespace MSG_by_AL__XAML_
             //Стираем все данные о собеседнике
             IDFriend = -1;
             Friend_Nick = "null";
-            await Task.Run(() => OpenChat(int.Parse(Dispatcher.Invoke(()=>btn.Content.ToString()))));
+            if(CreateNewChat(int.Parse(Dispatcher.Invoke(() => btn.Content.ToString())))!=true) await Task.Run(() => OpenChat(int.Parse(Dispatcher.Invoke(()=>btn.Content.ToString()))));
         }
     }
 }
