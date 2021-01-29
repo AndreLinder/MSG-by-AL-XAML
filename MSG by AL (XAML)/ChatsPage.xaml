@@ -7,22 +7,141 @@
         mc:Ignorable="d"
         Title="MSG by AL" Height="577.2" Width="890" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black" Closing="ChatPage_Closing">
     <Grid Margin="0,0,0.2,0">
+        <!--Список найденных пользователей-->
+        <Label x:Name="Name_Friend"
+               Visibility="Hidden"
+               HorizontalAlignment="Left" 
+               Margin="185,0,0,0" 
+               VerticalAlignment="Top" 
+               Height="32" 
+               Width="212"
+               Foreground="{StaticResource BorderBrush}"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Top"
+               BorderThickness="3"
+               BorderBrush="{StaticResource BorderBrush}"
+               FontSize="14"
+               FontFamily="Palatino Linotype"/>
+        <!--Список найденных пользователей-->
+        <ListBox x:Name="User_List" 
+                 HorizontalAlignment="Left" 
+                 Height="37" 
+                 VerticalAlignment="Top" 
+                 Width="216" 
+                 Cursor="Hand" 
+                 Background="#FF1B1B1B" 
+                 BorderBrush="{DynamicResource BorderBrush}" 
+                 BorderThickness="3" 
+                 Margin="656,32,0,0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 SelectionChanged="User_List_SelectionChanged"
+                 ToolTip="Список найденных пользователей">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="10" 
+                                Background="{StaticResource IsMouseOverColor}" 
+                                Width="146" 
+                                Height="25">
+                                <TextBlock Text="{Binding Name}" 
+                                       Background="Transparent" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextColor2}"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"
+                                       TextWrapping="Wrap"
+                                           ToolTip="Найденный пользователь"/>
+                            </Border>
+                            <Button x:Name="AddToFriend" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="Add.ico"
+                                    Height="25"
+                                    Width="25"
+                                    Click="AddToFriend_Click"
+                                    Content="{Binding ID_Friend}"
+                                    ToolTip="Добавить в друзья"/>
+                            <Button x:Name="Writing" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="Write.ico"
+                                    Height="25"
+                                    Width="25"
+                                    Content="{Binding ID_Friend}"
+                                    Click="Writing_Click"
+                                    ToolTip="Написать пользователю"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <!--Список моих друзей-->
+        <ListBox x:Name="Friend_List" 
+                 HorizontalAlignment="Left" 
+                 Height="389" 
+                 VerticalAlignment="Top" 
+                 Width="216" 
+                 Cursor="Hand" 
+                 Background="#FF1B1B1B" 
+                 BorderBrush="{DynamicResource BorderBrush}" 
+                 BorderThickness="3" 
+                 Margin="656,66,0,0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ToolTip="Список ваших друзей">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Border CornerRadius="10" 
+                                Background="{StaticResource IsMouseOverColor}" 
+                                Width="146" 
+                                Height="25">
+                                <TextBlock Text="{Binding Name}" 
+                                       Background="Transparent" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextColor2}"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"
+                                       TextWrapping="Wrap"
+                                           ToolTip="Пользователь"/>
+                            </Border>
+                            <Button x:Name="Writing" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="Write.ico"
+                                    Height="25"
+                                    Width="25"
+                                    Click="Writing_Click"
+                                    Content="{Binding ID_Friend}"
+                                    ToolTip="Написать пользователю"/>
+                            <Button x:Name="DeleteFromFriend" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="New_Delete.ico"
+                                    Height="25"
+                                    Width="25"
+                                    Content="{Binding ID_Friend}"
+                                    Click="DeleteFromFriend_Click"
+                                    ToolTip="Удалить из друзей"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <!--Кнопка обновления списка чатов-->
         <Button x:Name="Update_Chat_List" 
                 Style="{StaticResource ButtonStyleICO}" 
                 HorizontalAlignment="Left" 
                 VerticalAlignment="Top" 
-                Width="40" 
-                Height="40" 
-                Margin="10,459,0,0" 
+                Width="26" 
+                Height="26" 
+                Margin="5,3,0,0" 
                 Click="Update_Chat_List_Click" 
                 FontFamily="Palatino Linotype" 
-                local:ButtonImage.Image="New_Refresh.ico">
-        </Button>
+                local:ButtonImage.Image="New_Refresh.ico" RenderTransformOrigin="0.46,0.505"
+                ToolTip="Обновить список чатов в ручную (редко необходимо)"/>
 
-        <!--Кнопка обновления сообщений в чате-->
-
-        <!--Диалоговое окно со списком чатов-->
         <ListBox x:Name="Chat_list" 
                  HorizontalAlignment="Left" 
                  Height="422" 
@@ -35,7 +154,8 @@
                  BorderThickness="3" 
                  Margin="1,32,0,0" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                 SelectionChanged="Chat_list_SelectionChanged">
+                 MouseDoubleClick="Chat_list_MouseDoubleClick"
+                 ToolTip="Список ваших чатов">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" >
@@ -48,7 +168,8 @@
                                        HorizontalAlignment="Center" 
                                        VerticalAlignment="Center"
                                        FontSize="14"
-                                       FontFamily="Palatino Linotype"/>
+                                       FontFamily="Palatino Linotype"
+                                       ToolTip="Чат"/>
                         </Border>
                     </StackPanel>
                 </DataTemplate>
@@ -64,7 +185,8 @@
                 Margin="560,459,0,0" 
                 VerticalAlignment="Top" 
                 Width="100" 
-                Click="Send_Message_Click"/>
+                Click="Send_Message_Click"
+                ToolTip="Отправить собщение"/>
 
         <!--Поле поиска пользователей в программе-->
         <TextBox x:Name="User_Search" 
@@ -75,40 +197,8 @@
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" 
                  Width="208" 
-                 TextChanged="User_Search_Changed"/>
-
-        <!--Список найденных пользователей-->
-        <ListBox x:Name="User_List" 
-                 HorizontalAlignment="Left" 
-                 Height="40" 
-                 VerticalAlignment="Top" 
-                 Width="216" 
-                 Cursor="Hand" 
-                 Background="#FF1B1B1B" 
-                 BorderBrush="{DynamicResource BorderBrush}" 
-                 BorderThickness="3" 
-                 Margin="656,32,0,0"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                 SelectionChanged="User_List_SelectionChanged">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <Border CornerRadius="10" 
-                                Background="{StaticResource IsMouseOverColor}" 
-                                Width="196" 
-                                Height="25">
-                            <TextBlock Text="{Binding Name}" 
-                                       Background="Transparent" 
-                                       HorizontalAlignment="Center" 
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource TextColor2}"
-                                       FontSize="14"
-                                       FontFamily="Palatino Linotype"/>
-                        </Border>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                 TextChanged="User_Search_Changed"
+                 ToolTip="Поиск пользователей"/>
 
         <!--Поле для ввода и отправки сообщения-->
         <TextBox x:Name="TextBox_Message" 
@@ -118,7 +208,8 @@
                  Margin="165,459,0,0" 
                  TextWrapping="Wrap" 
                  VerticalAlignment="Top" 
-                 Width="390"/>
+                 Width="390"
+                 ToolTip="Поле для ввода сообщения"/>
 
         <!--Список сообщений из определённого диалога-->
         <ListBox x:Name="Message_List" 
@@ -131,7 +222,8 @@
                  Foreground="{DynamicResource TextColor1}" 
                  BorderBrush="{DynamicResource BorderBrush}"
                  BorderThickness="3" 
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ToolTip="Текущий диалог">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>
@@ -158,13 +250,28 @@
                                        TextWrapping="Wrap"
                                        MaxWidth="475"/>
                         </Border>
+                        <Button x:Name="DeleteMessage"
+                                Style="{StaticResource ButtonStyleICO}"
+                                Background="#FF1B1B1B"
+                                local:ButtonImage.Image="Delete_Message.ico"
+                                Content="{Binding Message_ID}"
+                                Width="25"
+                                Height="25"
+                                Cursor="Hand"
+                                ToolTip="Удалить сообщение"/>
+                        <Label Content="{Binding Message_Date}"
+                               FontSize="12"
+                               FontFamily="Palatino Linotype"
+                               Foreground="Gray"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
         <!--"Ползунок" для выборки определённого кол-ва сообщений из диалога-->
-        <Grid Margin="577,0,215.2,505">
+        <Grid x:Name="MySlider" 
+              Margin="577,0,215.2,505"
+              Visibility="Hidden">
             <Button x:Name="MinusButton" 
                     HorizontalAlignment="Left" 
                     Width="25" Height="20" 
@@ -197,19 +304,17 @@
                     HorizontalContentAlignment="Center" 
                     VerticalContentAlignment="Stretch" 
                     Height="20" 
-                    Margin="15,0,0,0">
-
-            </Button>
+                    Margin="15,0,0,0"/>
         </Grid>
-        <Button x:Name="Refresh_Message" 
-            Style="{StaticResource ButtonStyle}" 
-            Content="Обновить диалог" 
-            Height="33" 
-            HorizontalAlignment="Left" 
-            Margin="560,497,0,0" 
-            VerticalAlignment="Top" 
-            Width="100" 
-            Click="Refresh_Message_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="707,468,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+
+        <!--Закрытие текущего диалога-->
+        <Button x:Name="Close_Dialog"
+                Visibility="Hidden"
+                Background="{StaticResource StandartButton}" 
+                Margin="158,0,691,505"
+                local:ButtonImage.Image="GoToBack.ico"
+                Style="{StaticResource ButtonStyleICO2}" 
+                Click="Close_Dialog_Click"
+                ToolTip="Закрыть текущий диалог"/>
     </Grid>
 </Window>

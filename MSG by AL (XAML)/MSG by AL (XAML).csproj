@@ -211,7 +211,25 @@
     <Resource Include="MSG_BY_AL.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Refresh.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Add.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Write.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="New_Refresh.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GoToBack.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="New_Delete.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Delete_Message.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
