@@ -14,6 +14,9 @@ namespace MSG_by_AL__XAML_.Resource
         {
         }
 
+        //Свойство сохраняет ID сообщения (чтобы можно было его удалять)
+        public int Message_ID { get; set; }
+
         //Свойство, текст сообщения
         public string Message_Text { get; set; }
 
