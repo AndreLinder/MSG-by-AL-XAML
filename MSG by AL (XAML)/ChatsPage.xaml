@@ -258,7 +258,8 @@
                                 Width="25"
                                 Height="25"
                                 Cursor="Hand"
-                                ToolTip="Удалить сообщение"/>
+                                ToolTip="Удалить сообщение"
+                                Click="DeleteMessage_Click"/>
                         <Label Content="{Binding Message_Date}"
                                FontSize="12"
                                FontFamily="Palatino Linotype"

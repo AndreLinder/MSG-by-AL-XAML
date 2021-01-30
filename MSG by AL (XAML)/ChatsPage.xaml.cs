@@ -781,5 +781,47 @@ namespace MSG_by_AL__XAML_
             Friend_Nick = "null";
             if(CreateNewChat(int.Parse(Dispatcher.Invoke(() => btn.Content.ToString())))!=true) await Task.Run(() => OpenChat(int.Parse(Dispatcher.Invoke(()=>btn.Content.ToString()))));
         }
+
+        //Удаление сообщения из диалога
+        private void DeleteMessage_Click(object sender, RoutedEventArgs e)
+        {
+            //Кнопка удаления сообщения, хранящее ID удаляемого сообщения
+            Button message = sender as Button;
+            try
+            {
+                //Открываем соединение
+                connection.Open();
+
+                //Строка запроса
+                string sql_cmd = "DELETE FROM server_chats.messages WHERE ID = @IDMESSAGE;";
+
+                //Команда запроса
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры
+                MySqlParameter messageID = new MySqlParameter("@IDMESSAGE", MySqlDbType.Int32);
+                messageID.Value = message.Content.ToString();
+                cmd.Parameters.Add(messageID);
+
+                //Выполняем запрос
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                connection.Close();
+                //Вызываем функцию загрузки сообщений
+                Message_List.Items.Clear();
+                if (MessageCount <= 100) Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID)");
+                else Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID) LIMIT @COUNT-100,@COUNT;");
+                Message_List.ScrollIntoView(Message_List.Items[Message_List.Items.Count - 1]);
+
+            }
+        }
     }
 }
