@@ -330,11 +330,14 @@ namespace MSG_by_AL__XAML_
                     //Закрываем соединение
                     await connection_async.CloseAsync();
                 }
+
+                //Приостанавливаем поток данной функции (снижает нагрузку на БД, ОЗУ, ЦП + 1,5 сек. не страшная задержка)
+                System.Threading.Thread.Sleep(1500);
             }
         }
 
         //Создание нового диалога с пользователем
-        public bool CreateNewChat(int friendID)
+        public bool CreateNewChat(int friendID, string friend_nick)
         {
             bool succesfull = false;
             try
@@ -351,7 +354,7 @@ namespace MSG_by_AL__XAML_
 
                 //Добавляем параметры в наш запрос
                 MySqlParameter name_parameter = new MySqlParameter("@CHATNAME", MySqlDbType.VarChar);
-                name_parameter.Value = Convert.ToString(NickName + " to " + Friend_Nick);
+                name_parameter.Value = Convert.ToString(NickName + " to " + friend_nick);
                 cmd.Parameters.Add(name_parameter);
 
                 MySqlParameter id1 = new MySqlParameter("@IDUSER1", MySqlDbType.Int32);
@@ -500,6 +503,59 @@ namespace MSG_by_AL__XAML_
             return NAME;
         }
 
+        //Функция возвращает имя пользователя по его ID
+        public string GetUserName(int friend_ID)
+        {
+            //Имя пользователя
+            string NAME="null";
+
+            //Объект для создания подключения к БД
+            MySqlConnection conn = DBUtils.GetDBConnection();
+
+            try
+            {
+                //Открываем соединение
+                conn.Open();
+
+                //Строка запроса
+                string sql_cmd = "SELECT server_chats.users.User_Name FROM server_chats.users WHERE ID = @IDFRIEND";
+
+                //Команда запроса
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры
+                MySqlParameter friendID = new MySqlParameter("@IDFRIEND", MySqlDbType.Int32);
+                friendID.Value = friend_ID;
+                cmd.Parameters.Add(friendID);
+
+                //Получаем имя чата
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            NAME = reader.GetString(0);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            finally
+            {
+                //Закрываем соединение
+                conn.Close();
+            }
+
+            //Возвращаем имя пользователя
+            return NAME;
+        }
+
 
 
 
@@ -643,12 +699,6 @@ namespace MSG_by_AL__XAML_
 
         }
 
-        //Создание или открытие диалога с пользователем (необработана проверка на наличие существующего диалога)
-        private void User_List_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-           
-        }
-
         //Действия при закрытии диалога
         private void Close_Dialog_Click(object sender, RoutedEventArgs e)
         {
@@ -773,13 +823,14 @@ namespace MSG_by_AL__XAML_
         private async void Writing_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
+
             //Очищаем список сообщений
             Message_List.Items.Clear();
 
             //Стираем все данные о собеседнике
-            IDFriend = -1;
-            Friend_Nick = "null";
-            if(CreateNewChat(int.Parse(Dispatcher.Invoke(() => btn.Content.ToString())))!=true) await Task.Run(() => OpenChat(int.Parse(Dispatcher.Invoke(()=>btn.Content.ToString()))));
+            IDFriend = int.Parse(Dispatcher.Invoke(() => btn.Content.ToString()));
+            Friend_Nick = GetUserName(IDFriend);
+            if(CreateNewChat(IDFriend, Friend_Nick)!=true) await Task.Run(() => OpenChat(IDFriend));
         }
 
         //Удаление сообщения из диалога
@@ -817,8 +868,8 @@ namespace MSG_by_AL__XAML_
                 connection.Close();
                 //Вызываем функцию загрузки сообщений
                 Message_List.Items.Clear();
-                if (MessageCount <= 100) Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID)");
-                else Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID) LIMIT @COUNT-100,@COUNT;");
+                if (MessageCount <= 1000) Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID)");
+                else Loading_Messages("SELECT * FROM server_chats.messages WHERE (ID_Sender = @MYID AND ID_Reciever = @IDFRIEND) OR (ID_Sender = @IDFRIEND AND ID_Reciever = @MYID) LIMIT @COUNT-1000,@COUNT;");
                 Message_List.ScrollIntoView(Message_List.Items[Message_List.Items.Count - 1]);
 
             }

@@ -34,7 +34,6 @@
                  BorderThickness="3" 
                  Margin="656,32,0,0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                 SelectionChanged="User_List_SelectionChanged"
                  ToolTip="Список найденных пользователей">
             <ListBox.ItemTemplate>
                 <DataTemplate>
