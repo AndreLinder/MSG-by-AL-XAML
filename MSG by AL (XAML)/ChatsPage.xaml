@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Resource"
         mc:Ignorable="d"
-        Title="MSG by AL" Height="577.2" Width="890" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black" Closing="ChatPage_Closing">
+        Background="{StaticResource BackgroundColor}"
+        Title="MSG by AL" 
+        Height="577.2" 
+        Width="890" 
+        WindowStyle="ThreeDBorderWindow" 
+        Icon="MSG_BY_AL.ico" 
+        ResizeMode="CanMinimize" 
+        Closing="ChatPage_Closing">
     <Grid Margin="0,0,0.2,0">
         <!--Список найденных пользователей-->
         <Label x:Name="Name_Friend"
@@ -34,7 +41,7 @@
                  BorderThickness="3" 
                  Margin="656,32,0,0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                 ToolTip="Список найденных пользователей">
+                 ToolTip="Список найденных пользователей" Opacity="0.8">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -87,7 +94,7 @@
                  BorderThickness="3" 
                  Margin="656,66,0,0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ToolTip="Список ваших друзей">
+                 ToolTip="Список ваших друзей" Opacity="0.8">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -154,7 +161,7 @@
                  Margin="1,32,0,0" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                  MouseDoubleClick="Chat_list_MouseDoubleClick"
-                 ToolTip="Список ваших чатов">
+                 ToolTip="Список ваших чатов" Opacity="0.8">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical" >
@@ -222,7 +229,7 @@
                  BorderBrush="{DynamicResource BorderBrush}"
                  BorderThickness="3" 
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ToolTip="Текущий диалог">
+                 ToolTip="Текущий диалог" Opacity="0.8">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel VerticalAlignment="Bottom"/>

@@ -90,10 +90,10 @@ namespace MSG_by_AL__XAML_
                         while (reader.Read())
                         {
                             Chat_List list = new Chat_List();
-                            list.ID = int.Parse(reader.GetString(0));
-                            list.Name = reader.GetString(1);
-                            if (int.Parse(reader.GetString(2)) == IDuser) list.ID_Friend = int.Parse(reader.GetString(3));
-                            else list.ID_Friend = int.Parse(reader.GetString(2));
+                            list.ID = int.Parse(reader.GetString(1));
+                            list.Name = reader.GetString(2);
+                            if (int.Parse(reader.GetString(3)) == IDuser) list.ID_Friend = int.Parse(reader.GetString(4));
+                            else list.ID_Friend = int.Parse(reader.GetString(3));
                             Chat_list.Items.Add(list);
                         }
                     }

@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSG_by_AL__XAML_"
         mc:Ignorable="d"
-        Title="MSG by AL" Height="402" Width="372.8" WindowStyle="ThreeDBorderWindow" Icon="MSG_BY_AL.ico" ResizeMode="CanMinimize" Background="Black">
+        Title="MSG by AL" 
+        Height="402" 
+        Width="372.8" 
+        WindowStyle="ThreeDBorderWindow" 
+        Icon="MSG_BY_AL.ico" 
+        ResizeMode="CanMinimize" 
+        Background="{StaticResource BackgroundColor}">
     <Grid Margin="0,0,3.2,0.6">
 
         <!--Поле для ввода логина-->
@@ -28,8 +34,7 @@
                      Width="225"
                      Height="25"
                      VerticalAlignment="Top"
-                     HorizontalAlignment="Left"
-                     Background="Transparent" 
+                     HorizontalAlignment="Left" 
                      BorderThickness="0"
                      HorizontalContentAlignment="Center" 
                      VerticalContentAlignment="Center" 

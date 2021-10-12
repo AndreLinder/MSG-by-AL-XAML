@@ -16,6 +16,30 @@
         <GradientStop Color="#FFFFDC00" Offset="1"/>
     </LinearGradientBrush>
 
+    <!--Цвета заливки-->
+    <LinearGradientBrush x:Key="BackgroundColor" 
+                         EndPoint="0,1" 
+                         StartPoint="1,0">
+        <GradientStop Color="#FFAD5D01" Offset="0"/>
+        <GradientStop Color="#FFAD0183" Offset="0.5"/>
+        <GradientStop Color="#FF4000CE" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BackgroundColor2" 
+                         EndPoint="0,1" 
+                         StartPoint="1,0">
+        <GradientStop Color="#FF522C00" Offset="0"/>
+        <GradientStop Color="#FF5C0045" Offset="0.5"/>
+        <GradientStop Color="#FF250076" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="BackgroundButton" 
+                         EndPoint="0,1" 
+                         StartPoint="1,0">
+        <GradientStop Color="#FF383838" Offset="0"/>
+        <GradientStop Color="#FF0B0B0B" Offset="0.5"/>
+        <GradientStop Color="#FF383838" Offset="1"/>
+    </LinearGradientBrush>
 
 
     <!--Цвет границ элементов-->
@@ -47,6 +71,16 @@
         <GradientStop Color="Black" Offset="0"/>
     </GradientStopCollection>
 </LinearGradientBrush>
+    <LinearGradientBrush x:Key="TextColor3"  
+                     EndPoint="0.5,1" 
+                     MappingMode="RelativeToBoundingBox" 
+                     StartPoint="0.5,0">
+        <GradientStopCollection>
+            <GradientStop Color="Gray" Offset="0.5"/>
+            <GradientStop Color="Black" Offset="1"/>
+            <GradientStop Color="Black" Offset="0"/>
+        </GradientStopCollection>
+    </LinearGradientBrush>
 
     <!--Цвет кнопки-->
     <LinearGradientBrush x:Key="StandartButton"  EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -66,9 +100,9 @@
 
     <!--Стиль для элементов TextBox-->
     <Style x:Key="TextBoxStyle" TargetType="TextBox">
-    <Setter Property="Background" Value="Transparent"/>
-    <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
-    <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor2}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TextColor3}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
     <Setter Property="HorizontalContentAlignment" Value="Center"/>
     <Setter Property="FontFamily" Value="Palatino Linotype"/>
     <Setter Property="FontSize" Value="14"/>
@@ -100,7 +134,7 @@
 
     <!--Стиль и переопределённый шаблон для кнопки-->
     <Style x:Key="ButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="{DynamicResource StandartButton}"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundButton}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -198,7 +232,7 @@
     <!--Стиль для элементов Label-->
     <Style x:Key="LabelStyle" TargetType="Label">
     <Setter Property="Background" Value="{x:Null}"/>
-    <Setter Property="Foreground" Value="{StaticResource BorderBrush}"/>
+    <Setter Property="Foreground" Value="Black"/>
     <Setter Property="FontFamily" Value="Palatino Linotype"/>
 </Style>
 
@@ -223,8 +257,8 @@
 
     <!--Доработанный шаблон PasswordBox'а-->
     <Style x:Key="PasswordBoxStyle" TargetType="PasswordBox">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource BackgroundColor2}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource TextColor3}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
         <Setter Property="Width" Value="{Binding PasswordBox.Width}"/>
         <Setter Property="Height" Value="{Binding PasswordBox.Height}"/>
