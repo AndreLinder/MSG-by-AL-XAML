@@ -235,5 +235,8 @@
   <ItemGroup>
     <Resource Include="Delete_Message.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Exlamanation_Mark.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

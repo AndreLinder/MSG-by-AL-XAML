@@ -118,18 +118,56 @@
                         </Border>
                     
                 </Grid>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
-                    </Trigger>
-                    <Trigger Property="IsFocused" Value="True">
-                        <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource IsMouseOverColor}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
         </Setter.Value>
     </Setter>
 </Style>
+
+    <Style x:Key="TextBoxStyleMessage" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="90"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Icons/Exlamanation_Mark.png"
+                               HorizontalAlignment="Right"
+                               Grid.Column="0">
+                        </Image>
+                            <TextBlock Foreground="Black"
+                                     Background="Transparent"
+                                   Text="{TemplateBinding TextBox.Text}"
+                                   FontFamily="Palatino Linotype"
+                                   FontSize="16"
+                                   HorizontalAlignment="Left"
+                                   Grid.Column="1">
+                            </TextBlock>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="TextBox.TextChanged">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                       
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
     <!--Стиль и переопределённый шаблон для кнопки-->
@@ -234,6 +272,30 @@
     <Setter Property="Background" Value="{x:Null}"/>
     <Setter Property="Foreground" Value="Black"/>
     <Setter Property="FontFamily" Value="Palatino Linotype"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <TextBlock Text="{TemplateBinding Label.Content}">
+                            
+                        </TextBlock>
+                        <TextBlock Text="{TemplateBinding Label.Content}"
+                                   Foreground="Black">
+                            <TextBlock.Effect >
+                                <DropShadowEffect
+                                    ShadowDepth="1"
+                                    Direction="15"
+                                    Color="LightCyan"
+                                    Opacity="1"
+                                    BlurRadius="3">
+                                    
+                                </DropShadowEffect>
+                            </TextBlock.Effect>
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
 </Style>
 
     <!--Стиль для элемента TextBlock-сообщения собеседника-->

@@ -34,48 +34,6 @@ namespace MSG_by_AL__XAML_
         //Регистрация нового пользователя
         private void SignUp_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    //Открываем соединение 
-            //    connection.Open();
-
-            //    //Создаём строку запроса
-            //    string sql_cmd = "INSERT INTO server_chats.users (User_Name, User_Password, User_Nickname) VALUES (@NICKNAME,@PASSWORD,@LOGIN);";
-            //    //Создаём объект запроса
-            //    MySqlCommand cmd = connection.CreateCommand();
-            //    cmd.CommandText = sql_cmd;
-
-            //    //Добавляем параметры запроса
-            //    MySqlParameter login_parameter = new MySqlParameter("@LOGIN", MySqlDbType.VarChar);
-            //    login_parameter.Value = login_text.Text;
-            //    cmd.Parameters.Add(login_parameter);
-
-            //    MySqlParameter password_parameter = new MySqlParameter("@PASSWORD", MySqlDbType.VarChar);
-            //    password_parameter.Value = password_text.Password;
-            //    cmd.Parameters.Add(password_parameter);
-
-            //    MySqlParameter nickname_parameter = new MySqlParameter("@NICKNAME", MySqlDbType.VarChar);
-            //    nickname_parameter.Value = name_text.Text;
-            //    cmd.Parameters.Add(nickname_parameter);
-
-            //    //Выполняем запрос
-            //    cmd.ExecuteNonQuery();
-
-            //    //Если запрос успешно выполнен, то выведется соответствующее сообщение
-            //    //Иначе выпадет исключение
-            //    MessageBox.Show("Пользователь успешно зарегистрирован!", "Success", MessageBoxButton.OK, MessageBoxImage.Asterisk);
-            //}
-            //catch (MySqlException ex)
-            //{
-            //    //Выводим исключение, если таковое имеется
-            //    MessageBox.Show(ex.ToString());
-            //}
-            //finally
-            //{
-            //    //Закрываем соединение
-            //    connection.Close();
-            //}
-
             //Отправляем запрос на сервер и получаем ответ
             List<string> values = ServerConnect.RecieveDataFromDB("02#", name_text.Text + "~" + login_text.Text + "~" + password_text.Password);
 

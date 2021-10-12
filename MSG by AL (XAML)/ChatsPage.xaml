@@ -180,7 +180,9 @@
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+     </ListBox>
+
+
 
         <!--Кнопка отправки сообщения-->
         <Button x:Name="Send_Message" 
@@ -254,7 +256,7 @@
                                        Width="Auto"
                                        Height="Auto"
                                        TextWrapping="Wrap"
-                                       MaxWidth="475"/>
+                                       MaxWidth="400"/>
                         </Border>
                         <Button x:Name="DeleteMessage"
                                 Style="{StaticResource ButtonStyleICO}"
@@ -323,5 +325,11 @@
                 Style="{StaticResource ButtonStyleICO2}" 
                 Click="Close_Dialog_Click"
                 ToolTip="Закрыть текущий диалог"/>
+
+        <Image x:Name="Photo" 
+            Source="Icons/Exlamanation_Mark.png"
+               Height="50"
+               Width="50"
+               Margin="396,213,437,285"/>
     </Grid>
 </Window>

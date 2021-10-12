@@ -90,10 +90,10 @@ namespace MSG_by_AL__XAML_
                         while (reader.Read())
                         {
                             Chat_List list = new Chat_List();
-                            list.ID = int.Parse(reader.GetString(1));
-                            list.Name = reader.GetString(2);
-                            if (int.Parse(reader.GetString(3)) == IDuser) list.ID_Friend = int.Parse(reader.GetString(4));
-                            else list.ID_Friend = int.Parse(reader.GetString(3));
+                            list.ID = int.Parse(reader.GetString(0));
+                            list.Name = reader.GetString(1);
+                            if (int.Parse(reader.GetString(2)) == IDuser) list.ID_Friend = int.Parse(reader.GetString(3));
+                            else list.ID_Friend = int.Parse(reader.GetString(2));
                             Chat_list.Items.Add(list);
                         }
                     }
@@ -346,7 +346,7 @@ namespace MSG_by_AL__XAML_
                 connection.Open();
 
                 //Строка запроса
-                string sql_cmd = "INSERT INTO server_chats.chats (Chat_name, ID_User_1, ID_User_2) VALUES (@CHATNAME,@IDUSER1, @IDUSER2)";
+                string sql_cmd = "INSERT INTO server_chats.chats (Chat_Name, ID_User_1, ID_User_2) VALUES (@CHATNAME,@IDUSER1, @IDUSER2)";
 
                 //Команда запроса
                 MySqlCommand cmd = connection.CreateCommand();
@@ -399,6 +399,7 @@ namespace MSG_by_AL__XAML_
                     Dispatcher.Invoke(()=>MySlider.Visibility = Visibility.Visible);
                     Dispatcher.Invoke(()=>Name_Friend.Visibility = Visibility.Visible);
                     Dispatcher.Invoke(() => Name_Friend.Content = GetChatName(friend_ID));
+                Dispatcher.Invoke(() => Photo.Visibility = Visibility.Hidden);
                     //Открываем соединение
                     connection.Open();
 
