@@ -8,13 +8,27 @@
         Background="{StaticResource BackgroundColor}"
         Title="MSG by AL" 
         Height="577.2" 
-        Width="890" 
+        Width="900" 
         WindowStyle="ThreeDBorderWindow" 
         Icon="MSG_BY_AL.ico" 
         ResizeMode="CanMinimize" 
         Closing="ChatPage_Closing">
-    <Grid Margin="0,0,0.2,0">
-        <!--Список найденных пользователей-->
+    <Grid x:Name="BigGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MenuGrid"
+                              MinWidth="25"
+                              MaxWidth="140"
+                              Width="25">
+            </ColumnDefinition>
+            <ColumnDefinition   x:Name="MainGrid">
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="0,0,0.2,0"
+              Grid.Column="1"
+              Visibility="Hidden">
+
+            <!--Список найденных пользователей-->
         <Label x:Name="Name_Friend"
                Visibility="Hidden"
                HorizontalAlignment="Left" 
@@ -331,5 +345,52 @@
                Height="50"
                Width="50"
                Margin="396,213,437,285"/>
+    </Grid>
+
+        <!--Боковое меню-->
+        <Grid Grid.Column="0"
+              HorizontalAlignment="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition MaxHeight="25">
+                    
+                </RowDefinition>
+                <RowDefinition>
+
+                </RowDefinition>
+                <RowDefinition>
+
+                </RowDefinition>
+                <RowDefinition>
+
+                </RowDefinition>
+            </Grid.RowDefinitions>
+            <!--Кнопка "Развернуть меню"-->
+                <Button Style="{StaticResource ButtonStyleMenu}"
+                        Content="Cкрыть меню"
+                        Click="Show_Hidden_Menu"
+                        local:ButtonImage.Image="Write.ico"
+                        x:Name="MenuShow"
+                        Width="140"
+                        Grid.Row="0"
+                        Grid.Column="0">
+                </Button>
+                
+                <!--Кнопка "Открыть список диалогов"-->
+                <!--<Button Style="{StaticResource ButtonStyle}"
+                        Content="Открыть">
+                    
+                </Button>-->
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition>
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <ListBox Background="{StaticResource BackgroundColor2}"
+                     Grid.Column="0">
+                
+            </ListBox>
+        </Grid>
     </Grid>
 </Window>

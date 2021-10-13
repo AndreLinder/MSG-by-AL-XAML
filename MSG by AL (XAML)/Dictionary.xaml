@@ -348,5 +348,47 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <!--Шаблон кнопки для меню-->
+    <Style x:Key="ButtonStyleMenu" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource BackgroundButton}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextColor1}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MaxWidth="25"
+                                              MinWidth="25">
+                            </ColumnDefinition>
+                            <ColumnDefinition MaxWidth="115">
+                            </ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Background="{TemplateBinding Button.Background}" 
+                                CornerRadius="5"
+                                Grid.ColumnSpan="2"/>
+                        <Image Grid.Column="0"
+                               Source="{TemplateBinding local:ButtonImage.Image}">
+                        </Image>
+                        <TextBlock Text="{TemplateBinding Button.Content}" 
+                                   FontSize="14" 
+                                   FontFamily="Palatino Linotype" 
+                                   Foreground="{TemplateBinding Button.Foreground}" 
+                                   HorizontalAlignment="Center" 
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Grid.Column="1"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource IsMouseOverColor}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextColor2}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

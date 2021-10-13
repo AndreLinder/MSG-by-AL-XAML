@@ -875,5 +875,27 @@ namespace MSG_by_AL__XAML_
 
             }
         }
+
+        //Развернуть или свернуть меню
+        private void Show_Hidden_Menu(object sender, RoutedEventArgs e)
+        {
+            int width = int.Parse((Convert.ToString(MenuGrid.Width)));
+            //Если свернуто, развернуть
+            if(width == 25)
+            {
+                BigGrid.ColumnDefinitions[0].Width = new GridLength(140);
+                MenuShow.Width = 140;
+                //MenuGrid.Width = new GridLength(140);
+                //MainGrid.Width = new GridLength(this.Width - 140);
+            }
+            //Иначе свернуть
+            if (width == 140)
+            {
+                BigGrid.ColumnDefinitions[0].Width = new GridLength(25);
+                MenuShow.Width = 25;
+                //MenuGrid.Width = new GridLength(25);
+                //MainGrid.Width = new GridLength(this.Width - 25);
+            }
+        }
     }
 }
