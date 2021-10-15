@@ -34,8 +34,8 @@
     </LinearGradientBrush>
 
     <LinearGradientBrush x:Key="BackgroundButton" 
-                         EndPoint="0,1" 
-                         StartPoint="1,0">
+                         EndPoint="1,0.5" 
+                         StartPoint="0,0.5">
         <GradientStop Color="#FF383838" Offset="0"/>
         <GradientStop Color="#FF0B0B0B" Offset="0.5"/>
         <GradientStop Color="#FF383838" Offset="1"/>
@@ -67,9 +67,10 @@
                      MappingMode="RelativeToBoundingBox" 
                      StartPoint="0.5,0">
     <GradientStopCollection>
-        <GradientStop Color="Gray" Offset="1"/>
-        <GradientStop Color="Black" Offset="0"/>
-    </GradientStopCollection>
+            <GradientStop Color="#FF383838" Offset="1"/>
+        <GradientStop Color="Black" Offset="0.5"/>
+            <GradientStop Color="#FF383838" Offset="0"/>
+        </GradientStopCollection>
 </LinearGradientBrush>
     <LinearGradientBrush x:Key="TextColor3"  
                      EndPoint="0.5,1" 
@@ -357,18 +358,20 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition MaxWidth="25"
-                                              MinWidth="25">
-                            </ColumnDefinition>
-                            <ColumnDefinition MaxWidth="115">
-                            </ColumnDefinition>
-                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MaxHeight="20"
+                                              MinHeight="20">
+                            </RowDefinition>
+                            <RowDefinition>
+                            </RowDefinition>
+                        </Grid.RowDefinitions>
                         <Border Background="{TemplateBinding Button.Background}" 
-                                CornerRadius="5"
-                                Grid.ColumnSpan="2"/>
-                        <Image Grid.Column="0"
-                               Source="{TemplateBinding local:ButtonImage.Image}">
+                                CornerRadius="0"
+                                Grid.RowSpan="2">
+                        </Border>
+                            <Image HorizontalAlignment="Center"
+                               Source="{TemplateBinding local:ButtonImage.Image}"
+                               Grid.Row="0">
                         </Image>
                         <TextBlock Text="{TemplateBinding Button.Content}" 
                                    FontSize="14" 
@@ -378,7 +381,7 @@
                                    VerticalAlignment="Center"
                                    TextWrapping="Wrap"
                                    TextAlignment="Center"
-                                   Grid.Column="1"/>
+                                   Grid.Row="1"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

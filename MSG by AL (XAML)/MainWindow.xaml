@@ -10,6 +10,7 @@
         Width="372.8" 
         WindowStyle="ThreeDBorderWindow" 
         Icon="MSG_BY_AL.ico" 
+        WindowStartupLocation="CenterScreen"
          
         Background="{StaticResource BackgroundColor}">
     <Grid Margin="0,0,3.2,0.6">

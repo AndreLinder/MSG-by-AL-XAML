@@ -238,5 +238,26 @@
   <ItemGroup>
     <Resource Include="Icons\Exlamanation_Mark.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Users.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Dialog.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Trash.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Search.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Chats.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Menu.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Info.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -399,7 +399,6 @@ namespace MSG_by_AL__XAML_
                     Dispatcher.Invoke(()=>MySlider.Visibility = Visibility.Visible);
                     Dispatcher.Invoke(()=>Name_Friend.Visibility = Visibility.Visible);
                     Dispatcher.Invoke(() => Name_Friend.Content = GetChatName(friend_ID));
-                Dispatcher.Invoke(() => Photo.Visibility = Visibility.Hidden);
                     //Открываем соединение
                     connection.Open();
 
@@ -879,22 +878,33 @@ namespace MSG_by_AL__XAML_
         //Развернуть или свернуть меню
         private void Show_Hidden_Menu(object sender, RoutedEventArgs e)
         {
-            int width = int.Parse((Convert.ToString(MenuGrid.Width)));
+            int height = int.Parse((Convert.ToString(MenuGrid.Height)));
             //Если свернуто, развернуть
-            if(width == 25)
+            if(height == 20)
             {
-                BigGrid.ColumnDefinitions[0].Width = new GridLength(140);
-                MenuShow.Width = 140;
-                //MenuGrid.Width = new GridLength(140);
-                //MainGrid.Width = new GridLength(this.Width - 140);
+                BigGrid.RowDefinitions[0].Height = new GridLength(40);
+                MenuShow.Height = 40;
             }
             //Иначе свернуть
-            if (width == 140)
+            if (height == 40)
             {
-                BigGrid.ColumnDefinitions[0].Width = new GridLength(25);
-                MenuShow.Width = 25;
-                //MenuGrid.Width = new GridLength(25);
-                //MainGrid.Width = new GridLength(this.Width - 25);
+                BigGrid.RowDefinitions[0].Height = new GridLength(20);
+                MenuShow.Height = 20;
+            }
+        }
+
+        //Открыть окно поиска пользователей
+        private void Show_Search_Menu(object sender, RoutedEventArgs e)
+        {
+            if(SearchWindow.Visibility == Visibility.Hidden)
+            {
+                ButtonBlurEffect.Visibility = Visibility.Visible;
+                SearchWindow.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                ButtonBlurEffect.Visibility = Visibility.Hidden;
+                SearchWindow.Visibility = Visibility.Hidden;
             }
         }
     }
