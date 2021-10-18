@@ -45,58 +45,7 @@
                FontFamily="Palatino Linotype"/>
 
 
-        <!--Список моих друзей-->
-        <ListBox x:Name="Friend_List" 
-                 HorizontalAlignment="Left" 
-                 Height="389" 
-                 VerticalAlignment="Top" 
-                 Width="216" 
-                 Cursor="Hand" 
-                 Background="#FF1B1B1B" 
-                 BorderBrush="{DynamicResource BorderBrush}" 
-                 BorderThickness="3" 
-                 Margin="656,66,0,0"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ToolTip="Список ваших друзей" Opacity="0.8">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <Border CornerRadius="10" 
-                                Background="{StaticResource IsMouseOverColor}" 
-                                Width="146" 
-                                Height="25">
-                                <TextBlock Text="{Binding Name}" 
-                                       Background="Transparent" 
-                                       HorizontalAlignment="Center" 
-                                       VerticalAlignment="Center"
-                                       Foreground="{StaticResource TextColor2}"
-                                       FontSize="14"
-                                       FontFamily="Palatino Linotype"
-                                       TextWrapping="Wrap"
-                                           ToolTip="Пользователь"/>
-                            </Border>
-                            <Button x:Name="Writing" 
-                                    Style="{StaticResource ButtonStyleICO}"
-                                    local:ButtonImage.Image="Write.ico"
-                                    Height="25"
-                                    Width="25"
-                                    Click="Writing_Click"
-                                    Content="{Binding ID_Friend}"
-                                    ToolTip="Написать пользователю"/>
-                            <Button x:Name="DeleteFromFriend" 
-                                    Style="{StaticResource ButtonStyleICO}"
-                                    local:ButtonImage.Image="New_Delete.ico"
-                                    Height="25"
-                                    Width="25"
-                                    Content="{Binding ID_Friend}"
-                                    Click="DeleteFromFriend_Click"
-                                    ToolTip="Удалить из друзей"/>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        
 
         <!--Кнопка обновления списка чатов-->
             <Button x:Name="Update_Chat_List" 
@@ -167,18 +116,13 @@
                 Background="Black"
                 Opacity="0.75"
                 Visibility="Hidden"
-                Panel.ZIndex="1" >
+                Panel.ZIndex="1" 
+                Style="{StaticResource ButtonBlurEffect}">
             <Button.Effect>
                 <BlurEffect Radius="90">
                 </BlurEffect>
             </Button.Effect>
-            <ControlTemplate>
-                <ControlTemplate.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Background" Value="Black"/>
-                    </Trigger>
-                </ControlTemplate.Triggers>
-            </ControlTemplate>
+            
         </Button>
 
         <!--Верхнее меню-->
@@ -192,6 +136,8 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="50">
+                </ColumnDefinition>
             </Grid.ColumnDefinitions>
             <!--Кнопка "Развернуть меню"-->
             <Button Style="{StaticResource ButtonStyleMenu}"
@@ -223,7 +169,8 @@
             <Button Style="{StaticResource ButtonStyleMenu}"
                     local:ButtonImage.Image="Icons/Users.ico"
                     Content="Мои друзья"
-                    Grid.Column="3">
+                    Grid.Column="3"
+                    Click="FriendList_Show_Hidden">
             </Button>
             
             <!--Кнопка "О приложении"-->
@@ -232,6 +179,13 @@
                     Content="О приложении"
                     Grid.Column="4">
 
+            </Button>
+            
+            <!--Кнопка "выйти"-->
+            <Button Style="{StaticResource ButtonStyleMenu}"
+                    local:ButtonImage.Image="Icons/Exit.ico"
+                    Grid.Column="5"
+                    Content="Выйти">
             </Button>
         </Grid>
 
@@ -242,7 +196,7 @@
               VerticalAlignment="Center"
               Visibility="Hidden"
               Panel.ZIndex="1"
-              Background="{StaticResource BackgroundColor}">
+              Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition MaxWidth="450"
@@ -256,6 +210,12 @@
                 <RowDefinition MinHeight="370"></RowDefinition>
             </Grid.RowDefinitions>
 
+            <Border Background="{StaticResource BackgroundColor}"
+                    CornerRadius="10"
+                    Grid.Column="1"
+                    Grid.RowSpan="2">
+            </Border>
+            
             <!--Поле поиска пользователей в программе-->
             <TextBox x:Name="User_Search" 
                     Style="{StaticResource TextBoxStyle}" 
@@ -324,22 +284,79 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
-
-        <!--Окно списка друзей-->
+        
+        <!--Списко друзей-->
         <Grid x:Name="FriendWindow"
               Grid.Row="1"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
-              Visibility="Hidden">
+              Visibility="Hidden"
+              Panel.ZIndex="1"
+              Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition MaxWidth="450"
+                                  MinWidth="300">
+                </ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <ListBox Background="{StaticResource BackgroundColor2}"
-                     Grid.Column="1"
-                         Width="250"
-                         Height="350">
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="370"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Border Background="{StaticResource BackgroundColor}"
+                    Grid.Column="1"
+                    CornerRadius="10"
+                    Grid.Row="0"/>
+
+            <!--Список моих друзей-->
+            <ListBox x:Name="Friend_List" 
+                 Cursor="Hand" 
+                 Background="Transparent" 
+                 BorderBrush="{DynamicResource BorderBrush}" 
+                 BorderThickness="3" 
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ToolTip="Список ваших друзей" Opacity="0.8"
+                 Grid.Column="1"
+                 Grid.Row="0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Border CornerRadius="10" 
+                                Background="{StaticResource IsMouseOverColor}" 
+                                Width="146" 
+                                Height="25">
+                                    <TextBlock Text="{Binding Name}" 
+                                       Background="Transparent" 
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource TextColor2}"
+                                       FontSize="14"
+                                       FontFamily="Palatino Linotype"
+                                       TextWrapping="Wrap"
+                                           ToolTip="Пользователь"/>
+                                </Border>
+                                <Button x:Name="Writing" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="Write.ico"
+                                    Height="25"
+                                    Width="25"
+                                    Click="Writing_Click"
+                                    Content="{Binding ID_Friend}"
+                                    ToolTip="Написать пользователю"/>
+                                <Button x:Name="DeleteFromFriend" 
+                                    Style="{StaticResource ButtonStyleICO}"
+                                    local:ButtonImage.Image="New_Delete.ico"
+                                    Height="25"
+                                    Width="25"
+                                    Content="{Binding ID_Friend}"
+                                    Click="DeleteFromFriend_Click"
+                                    ToolTip="Удалить из друзей"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </Grid>
 
@@ -350,8 +367,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="600">
                 </ColumnDefinition>
-                <ColumnDefinition MinWidth="300"
-                                  MaxWidth="400">
+                <ColumnDefinition MinWidth="270"
+                                  MaxWidth="400"
+                                  Width="270">
                 </ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -421,7 +439,7 @@
             <ListBox x:Name="Chat_list" 
                     Cursor="Hand" 
                     Background="#FF1B1B1B" 
-                    Foreground="{DynamicResource TextColor2}" 
+                    Foreground="{DynamicResource TextColor1}" 
                     BorderBrush="Transparent" 
                     BorderThickness="5" 
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
@@ -429,23 +447,35 @@
                     ToolTip="Список ваших чатов" 
                     Opacity="0.8"
                     Grid.RowSpan="2"
-                    Grid.Column="1">
+                    Grid.Column="1"
+                     HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" >
-                            <Border CornerRadius="10" 
-                                Background="{StaticResource IsMouseOverColor}" 
-                                Width="140" 
-                                Height="20">
-                                <TextBlock Text="{Binding Name}" 
-                                       Background="Transparent" 
-                                       HorizontalAlignment="Center" 
-                                       VerticalAlignment="Center"
-                                       FontSize="14"
-                                       FontFamily="Palatino Linotype"
-                                       ToolTip="Чат"/>
-                            </Border>
-                        </StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MaxWidth="40">
+                                </ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Border CornerRadius="5" 
+                                        Background="{StaticResource BackgroundButton}" 
+                                        Height="40"
+                                    Grid.ColumnSpan="2"/>
+                            <Image Source="Icons/Dialog.ico"
+                                       Grid.Column="0"
+                                       HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Height="30"
+                                   Width="30"/>
+                            <TextBlock Text="{Binding Name}" 
+                                           Background="Transparent" 
+                                           FontSize="14"
+                                           FontFamily="Palatino Linotype"
+                                           ToolTip="Чат"
+                                           Grid.Column="1"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

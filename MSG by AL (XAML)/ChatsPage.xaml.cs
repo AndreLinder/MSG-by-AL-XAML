@@ -900,10 +900,29 @@ namespace MSG_by_AL__XAML_
             {
                 ButtonBlurEffect.Visibility = Visibility.Visible;
                 SearchWindow.Visibility = Visibility.Visible;
+                FriendWindow.Visibility = Visibility.Hidden;
             }
             else
             {
                 ButtonBlurEffect.Visibility = Visibility.Hidden;
+                SearchWindow.Visibility = Visibility.Hidden;
+            }
+        }
+
+        //Открыть/закрыть окно списка друзей
+        private void FriendList_Show_Hidden(object sender, RoutedEventArgs e)
+        {
+            //Если открыто, то скрыть
+            if(FriendWindow.Visibility == Visibility.Visible)
+            {
+                ButtonBlurEffect.Visibility = Visibility.Hidden;
+                FriendWindow.Visibility = Visibility.Hidden;
+            }
+            //Если закрыто, то открыть
+            else
+            {
+                ButtonBlurEffect.Visibility = Visibility.Visible;
+                FriendWindow.Visibility = Visibility.Visible;
                 SearchWindow.Visibility = Visibility.Hidden;
             }
         }

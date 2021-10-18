@@ -254,10 +254,13 @@
     <Resource Include="Icons\Chats.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icons\Info.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Icons\Menu.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\Info.ico" />
+    <Resource Include="Icons\Exit.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

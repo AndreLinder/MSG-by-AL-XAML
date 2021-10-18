@@ -169,6 +169,21 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!--Кнопка затемнения фона-->
+    <Style x:Key="ButtonBlurEffect" TargetType="Button">
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Border Background="{TemplateBinding Button.Background}">
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
     <!--Стиль и переопределённый шаблон для кнопки-->
