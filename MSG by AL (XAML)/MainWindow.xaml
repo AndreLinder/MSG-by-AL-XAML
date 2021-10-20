@@ -6,25 +6,27 @@
         xmlns:local="clr-namespace:MSG_by_AL__XAML_"
         mc:Ignorable="d"
         Title="MSG by AL" 
-        Height="402" 
-        Width="372.8" 
+        Height="400" 
+        Width="500" 
         WindowStyle="ThreeDBorderWindow" 
-        Icon="MSG_BY_AL.ico" 
+        Icon="Icons/MSG_BY_AL.ico" 
         WindowStartupLocation="CenterScreen"
          
         Background="{StaticResource BackgroundColor}">
     <Grid Margin="0,0,3.2,0.6">
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
-            <RowDefinition MaxHeight="25"
-                           MinHeight="25">
+            <RowDefinition MaxHeight="40"
+                           MinHeight="40">
             </RowDefinition>
             <RowDefinition MaxHeight="30"
                            MinHeight="30">
-
             </RowDefinition>
-            <RowDefinition MaxHeight="25"
-                           MinHeight="25">
+            <RowDefinition MaxHeight="30"
+                           MinHeight="30">
+            </RowDefinition>
+            <RowDefinition MaxHeight="30"
+                           MinHeight="30">
             </RowDefinition>
             <RowDefinition MaxHeight="30"
                            MinHeight="30">
@@ -38,6 +40,11 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
+        <Image Source="Icons/NewLogo.png"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Grid.Row="0"/>
+
         <!--Поле для ввода логина-->
         <TextBox x:Name="login_txt" 
                  Style="{StaticResource TextBoxStyle}" 
@@ -47,7 +54,7 @@
                  Height="24" 
                  MaxWidth="400"
                  VerticalAlignment="Center"
-                 Grid.Row="2" Margin="69,3.2,69.2,3.2"/>
+                 Grid.Row="3" Margin="69,3.2,69.2,3.2"/>
 
         <!--Поле для ввода пароля-->
         <PasswordBox x:Name="password_txt" 
@@ -60,7 +67,7 @@
                      VerticalContentAlignment="Center" 
                      FontSize="14" 
                      Foreground="{StaticResource TextColor1}" 
-                     Grid.Row="4" Margin="69,3,69.2,2.4"/>
+                     Grid.Row="5" Margin="69,3,69.2,2.4"/>
 
         <!--Просто label'ы-->
         <Label Content="Логин" 
@@ -71,7 +78,7 @@
                VerticalAlignment="Bottom" 
                HorizontalAlignment="Center" 
                FontSize="14"
-               Grid.Row="1"/>
+               Grid.Row="2"/>
         <Label Content="Пароль" 
                Style="{StaticResource LabelStyle}" 
                Height="25" 
@@ -80,15 +87,13 @@
                Margin="0,-5"
                Width="65" 
                FontSize="14"
-               Grid.Row="3"/>
+               Grid.Row="4"/>
         <Label Content="Авторизация" 
                Style="{StaticResource LabelStyle}" 
                FontSize="26" 
-               Height="45"
-               VerticalAlignment="Bottom"
+               VerticalAlignment="Center"
                HorizontalAlignment="Center"
-               Width="176"
-               Grid.Row="0"/>
+               Grid.Row="1"/>
 
         <!--Кнопка для авторизации пользователя-->
         <Button Content="Войти" 
@@ -97,7 +102,7 @@
                 MaxWidth="400"
                 VerticalAlignment="Bottom"
                 Click="Login_Click"
-                Grid.Row="5" Margin="69,0,69.2,0.2"/>
+                Grid.Row="6" Margin="69,0,69.2,0.2"/>
 
         <!--Кнопка для регистрации пользователя-->
         <Button Content="Зарегистрироваться" 
@@ -107,7 +112,7 @@
                 Height="23" 
                 MaxWidth="400"
                 Click="SignUp_Click"
-                Grid.Row="6"/>
+                Grid.Row="7"/>
 
         <!--Сообщение об отсутствии подключения к инернету-->
         <!--<TextBox Height="25"

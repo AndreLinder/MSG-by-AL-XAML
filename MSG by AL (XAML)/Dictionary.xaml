@@ -384,7 +384,7 @@
                                 CornerRadius="0"
                                 Grid.RowSpan="2">
                         </Border>
-                            <Image HorizontalAlignment="Center"
+                        <Image HorizontalAlignment="Center"
                                Source="{TemplateBinding local:ButtonImage.Image}"
                                Grid.Row="0">
                         </Image>
@@ -402,6 +402,50 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" Value="{DynamicResource IsMouseOverColor}"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextColor2}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--Шаблон для TextBox'а в списке чатов-->
+    <Style x:Key="ChatListItem" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource BackgroundButton}"/>
+        <Setter Property="Foreground" Value="{StaticResource TextColor1}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MaxWidth="40">
+                            </ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border    CornerRadius="5" 
+                                   Background="{TemplateBinding Button.Background}" 
+                                   Grid.ColumnSpan="2">
+
+                        </Border>
+                        <Image     Source="Icons/Dialog.ico"
+                                   Grid.Column="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Height="30"
+                                   Width="30"/>
+                        <TextBlock Text="{Binding Name}"  
+                                   FontSize="14"
+                                   Foreground="{TemplateBinding Button.Foreground}"
+                                   FontFamily="Palatino Linotype"
+                                   ToolTip="Чат"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource IsMouseOverColor}"/>
+                            <Setter Property="Foreground" Value="Black"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

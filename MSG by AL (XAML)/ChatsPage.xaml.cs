@@ -926,5 +926,11 @@ namespace MSG_by_AL__XAML_
                 SearchWindow.Visibility = Visibility.Hidden;
             }
         }
+
+        //Выйти из аккаунта пользователя
+        private void Exit_Account(object sender, RoutedEventArgs e) 
+        {
+            this.Close();
+        }
     }
 }

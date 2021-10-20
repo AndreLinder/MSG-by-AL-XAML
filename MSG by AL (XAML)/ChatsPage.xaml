@@ -10,7 +10,7 @@
         Height="600" 
         Width="900" 
         WindowStyle="ThreeDBorderWindow" 
-        Icon="MSG_BY_AL.ico"  
+        Icon="Icons/MSG_BY_AL.ico"  
         Closing="ChatPage_Closing"
         WindowStartupLocation="CenterScreen">
     <Grid x:Name="BigGrid">
@@ -185,7 +185,8 @@
             <Button Style="{StaticResource ButtonStyleMenu}"
                     local:ButtonImage.Image="Icons/Exit.ico"
                     Grid.Column="5"
-                    Content="Выйти">
+                    Content="Выйти"
+                    Click="Exit_Account">
             </Button>
         </Grid>
 
@@ -294,11 +295,14 @@
               Panel.ZIndex="1"
               Background="Transparent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition MaxWidth="450"
-                                  MinWidth="300">
+                <ColumnDefinition MaxWidth="300"
+                                  MinWidth="0">
                 </ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition MinWidth="450">
+                </ColumnDefinition>
+                <ColumnDefinition MaxWidth="300"
+                                  MinWidth="0">
+                </ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition MinHeight="370"></RowDefinition>
@@ -325,8 +329,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Border CornerRadius="10" 
                                 Background="{StaticResource IsMouseOverColor}" 
-                                Width="146" 
-                                Height="25">
+                                        HorizontalAlignment="Stretch">
                                     <TextBlock Text="{Binding Name}" 
                                        Background="Transparent" 
                                        HorizontalAlignment="Center" 
@@ -451,31 +454,8 @@
                      HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition MaxWidth="40">
-                                </ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Border CornerRadius="5" 
-                                        Background="{StaticResource BackgroundButton}" 
-                                        Height="40"
-                                    Grid.ColumnSpan="2"/>
-                            <Image Source="Icons/Dialog.ico"
-                                       Grid.Column="0"
-                                       HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Height="30"
-                                   Width="30"/>
-                            <TextBlock Text="{Binding Name}" 
-                                           Background="Transparent" 
-                                           FontSize="14"
-                                           FontFamily="Palatino Linotype"
-                                           ToolTip="Чат"
-                                           Grid.Column="1"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Grid>
+                        <Button Style="{StaticResource ChatListItem}"
+                                Height="40"/>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
