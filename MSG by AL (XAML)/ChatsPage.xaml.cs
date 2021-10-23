@@ -49,6 +49,7 @@ namespace MSG_by_AL__XAML_
             Clear_List();
             Update_Dialog_List();
             Update_Friend_List();
+            //Коммит
         }
 
         //Очистка всех списков (сообщений, чатов, пользователей)
