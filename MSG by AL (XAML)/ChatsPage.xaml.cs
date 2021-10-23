@@ -62,98 +62,37 @@ namespace MSG_by_AL__XAML_
         //Метод обновления списка чатов
         public void Update_Dialog_List()
         {
-            try
+            //Очищаем старый список чатов, если такие были
+            Chat_list.Items.Clear();
+
+            //Получаем список чатов от сервера в виде "Списка списков строк"
+            List<List<string>> values = ServerConnect.RecieveBigDataFromDB("03#", IDuser + "~");
+
+            foreach(List<string> value in values)
             {
-                //Открываем соединение
-                connection.Open();
-
-                //Команда для БД
-                string sql_cmd = "SELECT * FROM server_chats.chats WHERE (ID_User_1=@ID OR ID_User_2=@ID);";
-
-                //Создаём команду запроса
-                MySqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = sql_cmd;
-
-                //Добавляем параметры
-                MySqlParameter id_parameter = new MySqlParameter("@ID", MySqlDbType.Int32);
-                id_parameter.Value = IDuser;
-                cmd.Parameters.Add(id_parameter);
-
-                //Вот это обязательно
-                Chat_list.Items.Clear();
-
-                //...
-                using (DbDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            Chat_List list = new Chat_List();
-                            list.ID = int.Parse(reader.GetString(0));
-                            list.Name = reader.GetString(1);
-                            if (int.Parse(reader.GetString(2)) == IDuser) list.ID_Friend = int.Parse(reader.GetString(3));
-                            else list.ID_Friend = int.Parse(reader.GetString(2));
-                            Chat_list.Items.Add(list);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                //Закрываем соединение
-                connection.Close();
+                Chat_List list = new Chat_List();
+                list.ID = int.Parse(value[0]);
+                list.Name = value[1];
+                list.ID_Friend = int.Parse(value[2]);
+                Chat_list.Items.Add(list);
             }
         }
 
+        //Метод получения списка друзей (№04)
         public void Update_Friend_List()
         {
-            try
+            //Очищаем старый список друзей, если он был до этого
+            Friend_List.Items.Clear();
+
+            //Делаем запрос на сервер и получаем список друзей
+            List<List<string>> values = ServerConnect.RecieveBigDataFromDB("04#", IDuser + "");
+
+            foreach(List<string> value in values)
             {
-                //Предварительно очищаем список
-                Friend_List.Items.Clear();
-
-                //Открываем соединение
-                connection.Open();
-
-                //Строка запроса для выборки друзей авторизованного пользователя
-                string sql_cmd = "SELECT * FROM server_chats.friend WHERE ID_User = @MYID;";
-
-                //Команда запроса
-                MySqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = sql_cmd;
-
-                //Добавляем параметры
-                MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
-                myID.Value = IDuser;
-                cmd.Parameters.Add(myID);
-
-                using (DbDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.HasRows)
-                    {
-                        while (reader.Read())
-                        {
-                            Chat_List user = new Chat_List();
-                            user.ID_Friend = int.Parse(reader.GetString(1));
-                            user.Name = reader.GetString(2);
-                            Friend_List.Items.Add(user);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                //Закрываем соединение
-                connection.Close();
+                Chat_List user = new Chat_List();
+                user.ID_Friend = int.Parse(value[0]);
+                user.Name = value[1];
+                Friend_List.Items.Add(user);
             }
         }
 

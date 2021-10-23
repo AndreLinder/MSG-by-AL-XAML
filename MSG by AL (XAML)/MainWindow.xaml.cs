@@ -30,6 +30,7 @@ namespace MSG_by_AL__XAML_
 
         //Создание объекта подключения к БД
         MySqlConnection connection = DBUtils.GetDBConnection();
+
         public MainWindow()
         {
             InitializeComponent();

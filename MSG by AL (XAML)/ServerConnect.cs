@@ -51,13 +51,73 @@ namespace MSG_by_AL__XAML_
                 }
                 while (socket.Available > 0);
 
-                /*Получаем данные от сервера в виде строки: value1~%value2~%...valueN~% 
+                /*Получаем данные от сервера в виде строки: value1~value2~...valueN~ 
                  Обрабатываем данную строку, чтобы разделить значения и добавить их в список*/
                 string msg = builder.ToString();
 
                 foreach (string value in msg.Split('~'))
                 {
                     if(value != "") values.Add(value);
+                }
+
+                // закрываем сокет
+                socket.Shutdown(SocketShutdown.Both);
+                socket.Close();
+            }
+            catch (Exception ex)
+            {
+                //Выводим сообщения об возникшем исключении
+                MessageBox.Show(ex.Message);
+            }
+            //Возвращаем список значений для дальнейших действий
+            return values;
+        }
+
+        //Метод, осуществляющий соединение с сервером и получающий от него большие списки данных
+        public static List<List<string>> RecieveBigDataFromDB(string numberCommand, string parameters = "")
+        {
+            //Список значений, полученных от сервера
+            List<List<string>> values = new List<List<string>>();
+
+            try
+            {
+                //Создаем удаленную конечную точку сервера
+                IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(IP), port);
+
+                //Определяем объект сокета, для подключения к серверу по удаленной конечной точке
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                //Подключаемся к удаленному хосту
+                socket.Connect(ipPoint);
+                byte[] data = Encoding.Unicode.GetBytes(numberCommand + parameters);
+                socket.Send(data);
+
+                // получаем ответ
+                data = new byte[8192]; // буфер для ответа
+                StringBuilder builder = new StringBuilder();
+                int bytes = 0; // количество полученных байт
+
+                do
+                {
+                    bytes = socket.Receive(data, data.Length, 0);
+                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                }
+                while (socket.Available > 0);
+
+                /*Получаем данные от сервера в виде строки: value1~value2~...valueN~ 
+                 Обрабатываем данную строку, чтобы разделить значения и добавить их в список*/
+                string msg = builder.ToString();
+
+                foreach (string param in msg.Split('%')) 
+                {
+                    //Составляющее звено основного списка данных (...)
+                    List<string> list = new List<string>();
+
+                    foreach (string value in param.Split('~'))
+                    {
+                        if (value != "") list.Add(value);
+                    }
+                    values.Add(list);
                 }
 
                 // закрываем сокет
