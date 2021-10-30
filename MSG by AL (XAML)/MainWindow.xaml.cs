@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -73,22 +73,34 @@ namespace MSG_by_AL__XAML_
                             {
                                 NickName = login_txt.Text;
                                 IDuser = int.Parse(reader.GetString(0));
-                                MessageBox.Show("Авторизация прошла успешно!", "Success", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                                 //Открываем основное окно и передаём в него сведения об авторизованном пользователе
-                                ChatsPage chatpage = new ChatsPage(IDuser, NickName); 
+                                ChatsPage chatpage = new ChatsPage(IDuser, NickName);
                                 chatpage.Show();
                                 this.Close();
                             }
-                            else MessageBox.Show("Неверный логин или пароль!");
+                            else 
+                            {
+                                Notification_Text.Text = "Неверный логин или пароль!";
+                                Pop_Up_Notification();
+                            }
                         }
                     }
-                    else MessageBox.Show("Неверный логин или пароль!");
+                    else
+                    {
+                        Notification_Text.Text = "Неверный логин или пароль!";
+                        Pop_Up_Notification();
+                    }
                 }
             }
             catch (MySqlException ex)
             {
                 //Выводим исключение, если таковое имеется
-                MessageBox.Show(ex.ToString());
+                if (ex.Number == 1042)
+                {
+                    Notification_Text.Text = "Отсутствует подключение к базе данных!";
+                    Pop_Up_Notification();
+                }
+                else MessageBox.Show(ex.Message);
             }
             finally
             {
@@ -103,6 +115,29 @@ namespace MSG_by_AL__XAML_
             SignUpWindow Form = new SignUpWindow();
             Form.Show();
             this.Close();
+        }
+
+        private bool Expanded = false;
+        private void Pop_Up_Notification()
+        {
+            if (Expanded)
+            {
+                var anim = new DoubleAnimation(0, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Expanded = false;
+                Notification.BeginAnimation(ContentControl.HeightProperty, anim);
+            }
+            else
+            {
+                var anim = new DoubleAnimation(30, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Expanded = true;
+                Notification.BeginAnimation(ContentControl.HeightProperty, anim);
+            }
+        }
+        
+        //Убирает уведомление при смене фокуса
+        private void UIElement_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Notification.Height > 0) Pop_Up_Notification();
         }
     }
 }

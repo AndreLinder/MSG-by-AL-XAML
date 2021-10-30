@@ -17,7 +17,7 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\artur\OneDrive\Рабочий стол\</PublishUrl>
+    <PublishUrl>C:\Users\Asus\Documents\M.A.L.\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -29,7 +29,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ProductName>MGG BY AL</ProductName>
     <PublisherName>Andre Linder</PublisherName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>2.0.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -214,25 +214,26 @@
     <Resource Include="MSG_BY_AL.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Refresh.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Add.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Write.ico" />
+    <Resource Include="Icons\Chats.ico" />
+    <Resource Include="Icons\Dialog.ico" />
+    <Resource Include="Icons\Exit.ico" />
+    <Resource Include="Icons\Exlamanation_Mark.png" />
+    <Resource Include="Icons\Info.ico" />
+    <Resource Include="Icons\Logo.png" />
+    <Resource Include="Icons\Menu.ico" />
+    <Resource Include="Icons\NewLogo.png" />
+    <Resource Include="Icons\Search.ico" />
+    <Resource Include="Icons\Trash.ico" />
+    <Resource Include="Icons\Users.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="New_Refresh.ico" />
+    <Resource Include="Icons\Write.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="GoToBack.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="New_Delete.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Delete_Message.ico" />
+    <Resource Include="Icons\Delete.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

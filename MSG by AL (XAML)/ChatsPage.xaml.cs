@@ -615,6 +615,7 @@ namespace MSG_by_AL__XAML_
                             IDFriend = int.Parse(reader.GetString(0));
                             user.Name = reader.GetString(1);
                             user.ID_Friend = IDFriend;
+                            user.Nickname = "@" + reader.GetString(2);
                             User_List.Items.Add(user);
                             Friend_Nick = reader.GetString(2);
                         }
@@ -873,6 +874,64 @@ namespace MSG_by_AL__XAML_
                 Message_List.ScrollIntoView(Message_List.Items[Message_List.Items.Count - 1]);
 
             }
+        }
+
+        //Развернуть или свернуть меню
+        private void Show_Hidden_Menu(object sender, RoutedEventArgs e)
+        {
+            int height = int.Parse((Convert.ToString(MenuGrid.Height)));
+            //Если свернуто, развернуть
+            if (height == 20)
+            {
+                BigGrid.RowDefinitions[0].Height = new GridLength(40);
+                MenuShow.Height = 40;
+            }
+            //Иначе свернуть
+            if (height == 40)
+            {
+                BigGrid.RowDefinitions[0].Height = new GridLength(20);
+                MenuShow.Height = 20;
+            }
+        }
+
+        //Открыть окно поиска пользователей
+        private void Show_Search_Menu(object sender, RoutedEventArgs e)
+        {
+            if (SearchWindow.Visibility == Visibility.Hidden)
+            {
+                ButtonBlurEffect.Visibility = Visibility.Visible;
+                SearchWindow.Visibility = Visibility.Visible;
+                FriendWindow.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                ButtonBlurEffect.Visibility = Visibility.Hidden;
+                SearchWindow.Visibility = Visibility.Hidden;
+            }
+        }
+
+        //Открыть/закрыть окно списка друзей
+        private void FriendList_Show_Hidden(object sender, RoutedEventArgs e)
+        {
+            //Если открыто, то скрыть
+            if (FriendWindow.Visibility == Visibility.Visible)
+            {
+                ButtonBlurEffect.Visibility = Visibility.Hidden;
+                FriendWindow.Visibility = Visibility.Hidden;
+            }
+            //Если закрыто, то открыть
+            else
+            {
+                ButtonBlurEffect.Visibility = Visibility.Visible;
+                FriendWindow.Visibility = Visibility.Visible;
+                SearchWindow.Visibility = Visibility.Hidden;
+            }
+        }
+
+        //Выйти из аккаунта пользователя
+        private void Exit_Account(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
