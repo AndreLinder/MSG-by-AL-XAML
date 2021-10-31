@@ -462,7 +462,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Background="#FF1B1B1B"
+                    <Border Background="{TemplateBinding ListBox.Background}"
                                 CornerRadius="15"
                                 BorderThickness="5">
                         <ScrollViewer>

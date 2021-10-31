@@ -24,6 +24,86 @@
             </RowDefinition>
         </Grid.RowDefinitions>
 
+        <!--Боковое Уведомление-->
+        <Grid Grid.RowSpan="2"
+              Panel.ZIndex="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Bottom"
+                  Width="0"
+                  Height="80"
+                  x:Name="Side_Notification"
+                  Margin="0, 3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"
+                                      MaxWidth="80"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Border Background="{StaticResource BackgroundColor}"
+                        Width="265"
+                        Height="80"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        BorderThickness="5"
+                        CornerRadius="10"
+                        Margin="3,0"
+                        Grid.RowSpan="2"
+                        Grid.ColumnSpan="2">
+                </Border>
+                <Image Source="Icons/Message.ico" 
+                       Grid.Column="0"
+                       Grid.RowSpan="2"
+                       Height="50"
+                       Width="50"
+                       HorizontalAlignment="Left"
+                       Margin="15,0"/>
+
+                <Border Grid.Row="0"
+                           Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                        Background="{StaticResource BackgroundColor2}"
+                        Height="30"
+                        Width="175"
+                        Opacity="0.6"
+                        CornerRadius="15" 
+                        Margin="1,8,9,1">
+                </Border>
+                <TextBlock x:Name="User_Name_Notification"
+                           Grid.Row="0"
+                           Grid.Column="1"
+                           VerticalAlignment="Center"
+                           FontFamily="Palatino Linotype"
+                           FontSize="18"
+                           Foreground="{StaticResource TextColor2}"
+                           HorizontalAlignment="Center"
+                           Background="Transparent">
+                </TextBlock>
+                <TextBlock x:Name="Text_Message_Notification"
+                           Grid.Column="1"
+                           Grid.Row="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Text="Hello world!"
+                           FontFamily="Palatino Linotype"
+                           FontSize="12"
+                           TextWrapping="Wrap" Foreground="#FF221616"
+                           >
+                </TextBlock>
+                
+            </Grid>
+        </Grid>
+        
         <Grid Margin="0,0,0.2,0"
               Grid.Column="1"
               Grid.Row="1">
@@ -43,9 +123,6 @@
                BorderBrush="{StaticResource BorderBrush}"
                FontSize="14"
                FontFamily="Palatino Linotype"/>
-
-
-
 
             <!--Кнопка обновления списка чатов-->
             <Button x:Name="Update_Chat_List" 
@@ -601,7 +678,7 @@
             <!--Список чатов-->
             <ListBox x:Name="Chat_list" 
                     Cursor="Hand" 
-                    Background="#FF1B1B1B" 
+                    Background="{StaticResource BackgroundColor2}" 
                     Foreground="{DynamicResource TextColor1}" 
                     BorderBrush="Transparent" 
                     BorderThickness="5"  

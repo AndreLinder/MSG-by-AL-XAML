@@ -50,6 +50,7 @@ namespace MSG_by_AL__XAML_
             Clear_List();
             Update_Dialog_List();
             Update_Friend_List();
+            Task.Run(()=>Search_Unread_Messages());
         }
 
         //Очистка всех списков (сообщений, чатов, пользователей)
@@ -267,6 +268,92 @@ namespace MSG_by_AL__XAML_
             {
                 //Закрыавем соединение 
                 connection.Close();
+            }
+        }
+
+        //Поиск непрочитанных сообщений в БД и открытие уведомление о них
+        public async void Search_Unread_Messages()
+        {
+            MySqlConnection conn = DBUtils.GetDBConnection();
+            List<int> id_messages = new List<int>();
+            while (true) { 
+            try
+            {
+                //Открываем соединение
+                await conn.OpenAsync();
+
+                //Строка запроса в БД
+                string sql_cmd = "SELECT server_chats.messages.ID,server_chats.messages.Date_Message,server_chats.messages.Text_Message, server_chats.users.User_Name, server_chats.messages.ID_Sender FROM server_chats.messages LEFT JOIN server_chats.users ON server_chats.messages.ID_Sender = server_chats.users.ID WHERE (server_chats.messages.ID_Reciever = @ID AND server_chats.messages.Visible_Message = 0 AND server_chats.messages.visible_notification = 0);";
+
+                //Создаем команду для запроса
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                //Добавляем параметры
+                MySqlParameter id = new MySqlParameter("@ID", MySqlDbType.Int32);
+                id.Value = IDuser;
+                cmd.Parameters.Add(id);
+
+                //Начинаем считывать данные
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            Dispatcher.Invoke(()=>User_Name_Notification.Text = reader.GetString(3));
+                            Dispatcher.Invoke(()=>Text_Message_Notification.Text = reader.GetString(2));
+                            Dispatcher.Invoke(() => SideNotificationShow());
+                            id_messages.Add(int.Parse(reader.GetString(0)));
+                                System.Threading.Thread.Sleep(4000);
+                                Dispatcher.Invoke(() => SideNotificationShow());
+                                System.Threading.Thread.Sleep(1500);
+                            }
+                    }
+                }
+
+                    //Отмечаем непрочитанные сообщения, чтобы не повторялись в оповещении 
+                    foreach(int i in id_messages)
+                    {
+                        cmd.Parameters.Clear();
+                        //Запрос на обновление
+                        sql_cmd = "UPDATE server_chats.messages SET server_chats.messages.visible_notification = 1 WHERE ID = @IDMESSAGES;";
+                        cmd.CommandText = sql_cmd;
+                        MySqlParameter id_msg = new MySqlParameter("IDMESSAGES", MySqlDbType.Int32);
+                        id_msg.Value = i;
+                        cmd.Parameters.Add(id_msg);
+                        cmd.ExecuteNonQuery();
+                    }
+                    id_messages.Clear();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                //Закрываем соединение
+                await conn.CloseAsync();
+                System.Threading.Thread.Sleep(5000);
+            }
+            }
+        }
+
+        public bool Exp = false;
+        private void SideNotificationShow()
+        {
+            if (Exp)
+            {
+                var anim = new DoubleAnimation(0, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Exp = false;
+                Side_Notification.BeginAnimation(ContentControl.WidthProperty, anim);
+            }
+            else
+            {
+                var anim = new DoubleAnimation(265, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Exp = true;
+                Side_Notification.BeginAnimation(ContentControl.WidthProperty, anim);
             }
         }
 
