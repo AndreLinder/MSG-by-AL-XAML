@@ -129,26 +129,35 @@
         <Grid x:Name="Notification"
               Grid.Row="8"
               Height="0"
-              Background="{StaticResource BackgroundColor2}"
-              LostFocus="UIElement_LostFocus">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
-            </Grid.RowDefinitions>
-
-            <Image Source="Icons/Exlamanation_Mark.png"
-                   Grid.Column="0"/>
-            <TextBlock x:Name="Notification_Text"
+              LostFocus="UIElement_LostFocus"
+              HorizontalAlignment="Center">
+            <Border CornerRadius="15"
+                    Background="{StaticResource BackgroundColor2}">
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image x:Name="Notification_Image"
+                   Source="Icons/Exlamanation_Mark.png"
+                   Grid.Column="0"
+                   HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Margin="10,0"/>
+                    <TextBlock x:Name="Notification_Text"
                        Text="Отсутствует подключение к базе данных!"
                        Grid.Column="1"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="Left"
                        VerticalAlignment="Center"
                        Foreground="{StaticResource TextColor1}"
                        FontFamily="Palatino Linotype"
-                       FontSize="14"/>
+                       FontSize="14"
+                       Margin="10,0 "/>
+                </Grid>
+            </Border>
         </Grid>
     </Grid>
 </Window>

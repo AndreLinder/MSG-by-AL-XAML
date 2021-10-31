@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -67,8 +67,18 @@ namespace MSG_by_AL__XAML_
             }
             catch (MySqlException ex)
             {
+                if(ex.Number == 1042)
+                {
+                    Notification_Text.Text = "Отсутствует подключение к базе данных!";
+                    Pop_Up_Notification();
+                }
+                if(ex.Number == 1062)
+                {
+                    Notification_Text.Text = "Пользователь с таким логином уже существует!";
+                    Pop_Up_Notification();
+                }
                 //Выводим исключение, если таковое имеется
-                MessageBox.Show(ex.ToString());
+                else MessageBox.Show(ex.ToString() + " " + ex.Number);
             }
             finally
             {
@@ -82,6 +92,30 @@ namespace MSG_by_AL__XAML_
         {
             MainWindow main = new MainWindow();
             main.Show();
+        }
+
+        //Метод всплывающего уведомления
+        private bool Expanded = false;
+        private void Pop_Up_Notification()
+        {
+            if (Expanded)
+            {
+                var anim = new DoubleAnimation(0, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Expanded = false;
+                Notification.BeginAnimation(ContentControl.HeightProperty, anim);
+            }
+            else
+            {
+                var anim = new DoubleAnimation(30, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Expanded = true;
+                Notification.BeginAnimation(ContentControl.HeightProperty, anim);
+            }
+        }
+
+        //Убирает уведомление при смене фокуса
+        private void UIElement_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Notification.Height > 0) Pop_Up_Notification();
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Threading;
@@ -556,6 +557,65 @@ namespace MSG_by_AL__XAML_
             return NAME;
         }
 
+        //Метод отправки сообщений
+        private void Sending_Message()
+        {
+            //Чтобы не отправлялись пустые сообщения
+            if (TextBox_Message.Text.Length != 0)
+            {
+                try
+                {
+                    //Открываем соединение
+                    connection.Open();
+
+                    //Строка запроса для БД (недописана)
+                    string sql_cmd = "INSERT INTO server_chats.messages (Text_Message, Date_Message, ID_Sender, ID_Reciever, Visible_Message) VALUES (@TEXT, NOW(), @MYID, @FRIENDID, 0);";
+
+                    //Команда запроса
+                    MySqlCommand cmd = connection.CreateCommand();
+                    cmd.CommandText = sql_cmd;
+
+                    //Добавляем параметры
+                    MySqlParameter text_message = new MySqlParameter("@TEXT", MySqlDbType.Text);
+                    text_message.Value = TextBox_Message.Text;
+                    cmd.Parameters.Add(text_message);
+
+                    MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
+                    myID.Value = IDuser;
+                    cmd.Parameters.Add(myID);
+
+                    MySqlParameter friendID = new MySqlParameter("@FRIENDID", MySqlDbType.Int32);
+                    friendID.Value = IDFriend;
+                    cmd.Parameters.Add(friendID);
+
+                    //Выполняем запрос
+                    cmd.ExecuteNonQuery();
+
+                    //Добавляем сообщение в диалог
+                    //Нет возможности добавить ID для своего сообщения, т.к. его формирует БД
+                    //Отправленное сообщение возможно не получится удалить, пока не перезайти в диалог
+                    Message my_message = new Message();
+                    my_message.Message_ID = -1;
+                    my_message.Message_Text = TextBox_Message.Text;
+                    my_message.Message_Date = DateTime.Now.ToString();
+                    my_message.backGround = (Brush)Application.Current.Resources["MyMessageColor"];
+                    my_message.borderBrush = (Brush)Application.Current.Resources["MyMessageColor"];
+                    Message_List.Items.Add(my_message);
+                    Message_List.ScrollIntoView(Message_List.Items[Message_List.Items.Count - 1]);
+                    TextBox_Message.Text = "";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+                finally
+                {
+                    //Закрываем соединение
+                    connection.Close();
+                }
+            }
+        }
+
 
 
 
@@ -643,61 +703,11 @@ namespace MSG_by_AL__XAML_
         //Отпрвака сообщения
         private void Send_Message_Click(object sender, RoutedEventArgs e)
         {
-            //Чтобы не отправлялись пустые сообщения
-            if (TextBox_Message.Text.Length != 0)
-            {
-                try
-                {
-                    //Открываем соединение
-                    connection.Open();
-
-                    //Строка запроса для БД (недописана)
-                    string sql_cmd = "INSERT INTO server_chats.messages (Text_Message, Date_Message, ID_Sender, ID_Reciever, Visible_Message) VALUES (@TEXT, NOW(), @MYID, @FRIENDID, 0);";
-
-                    //Команда запроса
-                    MySqlCommand cmd = connection.CreateCommand();
-                    cmd.CommandText = sql_cmd;
-
-                    //Добавляем параметры
-                    MySqlParameter text_message = new MySqlParameter("@TEXT", MySqlDbType.Text);
-                    text_message.Value = TextBox_Message.Text;
-                    cmd.Parameters.Add(text_message);
-
-                    MySqlParameter myID = new MySqlParameter("@MYID", MySqlDbType.Int32);
-                    myID.Value = IDuser;
-                    cmd.Parameters.Add(myID);
-
-                    MySqlParameter friendID = new MySqlParameter("@FRIENDID", MySqlDbType.Int32);
-                    friendID.Value = IDFriend;
-                    cmd.Parameters.Add(friendID);
-
-                    //Выполняем запрос
-                    cmd.ExecuteNonQuery();
-
-                    //Добавляем сообщение в диалог
-                    //Нет возможности добавить ID для своего сообщения, т.к. его формирует БД
-                    //Отправленное сообщение возможно не получится удалить, пока не перезайти в диалог
-                    Message my_message = new Message();
-                    my_message.Message_ID = -1;
-                    my_message.Message_Text = TextBox_Message.Text;
-                    my_message.Message_Date = DateTime.Now.ToString();
-                    my_message.backGround = (Brush)Application.Current.Resources["MyMessageColor"];
-                    my_message.borderBrush = (Brush)Application.Current.Resources["MyMessageColor"];
-                    Message_List.Items.Add(my_message);
-                    Message_List.ScrollIntoView(Message_List.Items[Message_List.Items.Count - 1]);
-                    TextBox_Message.Text = "";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
-                finally
-                {
-                    //Закрываем соединение
-                    connection.Close();
-                }
-            }
-
+            Sending_Message();
+        }
+        private void Send_Message_Enter(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter) Sending_Message();
         }
 
         //Действия при закрытии диалога
@@ -754,6 +764,7 @@ namespace MSG_by_AL__XAML_
 
                     //После успешного выполнения команды, будет дополнен список друзей
                     Friend_List.Items.Add(user);
+                    Pop_Up_Notification();
                 }
                 catch (Exception ex)
                 {
@@ -763,7 +774,6 @@ namespace MSG_by_AL__XAML_
                 {
                     //Закрываем соединение
                     connection.Close();
-                    User_Search.Clear();
                 }
         }
 
@@ -876,6 +886,8 @@ namespace MSG_by_AL__XAML_
             }
         }
 
+        
+
         //Развернуть или свернуть меню
         private void Show_Hidden_Menu(object sender, RoutedEventArgs e)
         {
@@ -932,6 +944,30 @@ namespace MSG_by_AL__XAML_
         private void Exit_Account(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        //Метод всплывающего уведомления
+        private bool Expanded = false;
+        private void Pop_Up_Notification()
+        {
+            if (Expanded)
+            {
+                var anim = new DoubleAnimation(0, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Expanded = false;
+                Notification_Search_Window.BeginAnimation(ContentControl.HeightProperty, anim);
+            }
+            else
+            {
+                var anim = new DoubleAnimation(20, (Duration)TimeSpan.FromSeconds(0.5));
+                anim.Completed += (s, _) => Expanded = true;
+                Notification_Search_Window.BeginAnimation(ContentControl.HeightProperty, anim);
+            }
+        }
+
+        //Убирает уведомление при смене фокуса
+        private void UIElement_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (Notification_Search_Window.Height > 0) Pop_Up_Notification();
         }
     }
 }

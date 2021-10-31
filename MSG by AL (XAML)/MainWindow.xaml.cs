@@ -117,6 +117,7 @@ namespace MSG_by_AL__XAML_
             this.Close();
         }
 
+        //Метод всплывающего уведомления
         private bool Expanded = false;
         private void Pop_Up_Notification()
         {

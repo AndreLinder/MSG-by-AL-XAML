@@ -455,5 +455,23 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!--ListBox-->
+    <Style x:Name="ListBoxStyle" TargetType="ListBox">
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="#FF1B1B1B"
+                                CornerRadius="15"
+                                BorderThickness="5">
+                        <ScrollViewer>
+                            <ItemsPresenter Margin="4"/>
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>
