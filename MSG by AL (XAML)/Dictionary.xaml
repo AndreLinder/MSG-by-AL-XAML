@@ -473,5 +473,68 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!--Кнопка-иконка с анимацией-->
+    <Style x:Key="ButtonIconAnimation" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource IsMouseOverColor}"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="BorderHeight"
+                                CornerRadius="20"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Background="{StaticResource IsMouseOverColor}"
+                                Height="0"
+                                />
+                        <Border x:Name="BorderWidth"
+                                CornerRadius="20"
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Background="{StaticResource IsMouseOverColor}"
+                                Width="0"/>
+                        <Label x:Name="TextIcon"
+                                   Content="{TemplateBinding Button.Content}"
+                                   Background="Transparent"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="20"
+                                   FontFamily="Palatino Linotype"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Button.MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="BorderHeight" Storyboard.TargetProperty="Height" From="0" To="30" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="BorderHeight" Storyboard.TargetProperty="Width" From="0" To="30" Duration="0:0:0.2"/>
+                                    <ColorAnimation Storyboard.TargetName="TextIcon" Storyboard.TargetProperty="Foreground.Color" From="White" To="Black" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="Button.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="BorderHeight" Storyboard.TargetProperty="Height" From="30" To="0" Duration="0:0:0.2"/>
+                                    <DoubleAnimation Storyboard.TargetName="BorderHeight" Storyboard.TargetProperty="Width" From="30" To="0" Duration="0:0:0.2"/>
+                                    <ColorAnimation Storyboard.TargetName="TextIcon" Storyboard.TargetProperty="Foreground.Color" From="Black" To="White" Duration="0:0:0.2"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

@@ -136,6 +136,7 @@
     <Compile Include="Resource\Chat_List.cs" />
     <Compile Include="Resource\DBMySQLUtils.cs" />
     <Compile Include="Resource\DBUtils.cs" />
+    <Compile Include="Resource\Images.cs" />
     <Compile Include="Resource\Message.cs" />
     <Compile Include="SignUpWindow.xaml.cs">
       <DependentUpon>SignUpWindow.xaml</DependentUpon>

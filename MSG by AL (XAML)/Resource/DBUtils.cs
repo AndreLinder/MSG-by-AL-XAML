@@ -6,7 +6,7 @@ namespace ConnectionDB
     {
         public static MySqlConnection GetDBConnection()
         {
-            string host = "192.168.50.52";
+            string host = "10.192.133.108";
             int port = 3306;
             string database = "server_chats";
             string username = "Andre Linder";

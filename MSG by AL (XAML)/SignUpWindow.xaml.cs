@@ -15,6 +15,8 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Resource;
+using System.IO;
 
 namespace MSG_by_AL__XAML_
 {
@@ -29,6 +31,43 @@ namespace MSG_by_AL__XAML_
         public SignUpWindow()
         {
             InitializeComponent();
+            GetImageFromDb();
+        }
+
+        private void GetImageFromDb()
+        {
+            try
+            {
+                connection.Open();
+
+                string sql_cmd = "SELECT server_chats.users.Uset_Image from server_chats.users WHERE ID = 23;";
+
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql_cmd;
+
+                using (DbDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            byte[] image_byte = new byte[5000000];
+                            image_byte = (byte[]) reader.GetValue(0);
+                            Images img = new Images();
+                            imageFromDB.Source = img.ByteArrayToImage(image_byte);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         //Регистрация нового пользователя
@@ -36,11 +75,16 @@ namespace MSG_by_AL__XAML_
         { 
             try
             {
+                BitmapImage bi = new BitmapImage();
+                bi.BeginInit();
+                bi.UriSource = new Uri("pack://application:,,,/Icons/NewLogo.png", UriKind.RelativeOrAbsolute);
+                bi.EndInit();
+
                 //Открываем соединение 
                 connection.Open();
 
                 //Создаём строку запроса
-                string sql_cmd = "INSERT INTO server_chats.users (User_Name, User_Password, User_Nickname) VALUES (@NICKNAME,@PASSWORD,@LOGIN);";
+                string sql_cmd = "INSERT INTO server_chats.users (User_Name, User_Password, User_Nickname, Uset_Image) VALUES (@NICKNAME,@PASSWORD,@LOGIN, @IMAGE);";
                 //Создаём объект запроса
                 MySqlCommand cmd = connection.CreateCommand();
                 cmd.CommandText = sql_cmd;
@@ -57,6 +101,22 @@ namespace MSG_by_AL__XAML_
                 MySqlParameter nickname_parameter = new MySqlParameter("@NICKNAME", MySqlDbType.VarChar);
                 nickname_parameter.Value = name_text.Text;
                 cmd.Parameters.Add(nickname_parameter);
+
+                MySqlParameter image = new MySqlParameter("@IMAGE", MySqlDbType.LongBlob);
+
+                //Преобразование изображение в массив байт
+                byte[] data;
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bi));
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    encoder.Save(ms);
+                    data = ms.ToArray();
+                    MessageBox.Show(data.Length + " ");
+                }
+
+                image.Value = data;
+                cmd.Parameters.Add(image);
 
                 //Выполняем запрос
                 cmd.ExecuteNonQuery();
@@ -116,6 +176,11 @@ namespace MSG_by_AL__XAML_
         private void UIElement_LostFocus(object sender, RoutedEventArgs e)
         {
             if (Notification.Height > 0) Pop_Up_Notification();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

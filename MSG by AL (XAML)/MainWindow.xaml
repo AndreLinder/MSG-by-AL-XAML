@@ -159,5 +159,13 @@
                 </Grid>
             </Border>
         </Grid>
+
+        <Button Grid.Column="0"
+                Grid.Row="7"
+                Height="40"
+                Width="40"
+                VerticalAlignment="Bottom"
+                Style="{StaticResource ButtonIconAnimation}"
+                Content="5"/>
     </Grid>
 </Window>
